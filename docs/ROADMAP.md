@@ -36,7 +36,7 @@ integrity-preserving result that directly informs Tier 2. See `docs/FINDINGS_11_
 - **Expected payoff:** new predictable traits (locomotor activity), and a metabolite-level mechanism
   complementing the lipid-pathway story.
 
-## Tier 2 — the disease/drug aim, done correctly  [VALID design, data-limited]
+## Tier 2 — the disease/drug aim, done correctly  [EXECUTED — honest negative, Findings 12/19]
 The original vision (predict transgenic disease models / drug rescue) is reachable ONLY as a
 **transfer-validation experiment**, not by training on DGRP natural variation:
 1. Train expression→phenotype on the DGRP (have it).
@@ -51,6 +51,21 @@ The original vision (predict transgenic disease models / drug rescue) is reachab
   heterogeneous → this is a careful curation + meta-analysis, with a real chance of a negative
   (non-transfer) result. That negative would itself be an important, publishable finding.
 
+**Executed (2026-07-01 to 2026-07-03), the risk materialized honestly:**
+- **DGRP→disease transfer test** (Findings 12): DGRP-trained climbing map does not cleanly predict
+  disease-model expression direction — weak, model-specific relationship.
+- **Yang et al. 2023 DGRP×AD integration** (Findings 19): the first dataset in the project with a
+  *real* matched DGRP-genotype × disease-transgene phenotype (Aβ42+Tau eye degeneration, 162 lines,
+  F1-cross design). Genotype-only, multi-modal, and inversion-adjusted GBLUP all came back a
+  complete, well-powered null (0/5, 0/10, 0/5 significant). Pre-registered risk analysis written
+  first (`EDITORIAL_RISK_ANALYSIS.md`).
+- **Verdict for Tier 2:** the transfer-validation question has now been asked directly, twice, on two
+  independent real datasets, and answered **no** both times at current data/methods. This closes
+  Tier 2 as executed-and-negative, not abandoned or unattempted — the honest answer to "does a
+  DGRP-natural-variation model transfer to disease/perturbation phenotypes" is currently no. Tier 3
+  (below) is gated on this and remains speculative unless new matched data or a different transfer
+  method changes this answer.
+
 ## Tier 3 — signature-based compound/perturbation scoring (CMap-for-flies)  [future]
 Represent each perturbation by its expression signature; score it against the DGRP-derived
 gene→phenotype weights (QTT) to predict phenotypic direction. Feasible only after Tier 2 establishes
@@ -61,7 +76,14 @@ that the DGRP gene→phenotype map transfers. Otherwise it is speculation.
 - Use the user's human/mouse ALS omics as per-fly features (cross-organism category error).
 - Claim disease/drug prediction before Tier 2 transfer is demonstrated.
 
-## Immediate next action (recommended)
-Tier 1: process MTBLS2060 NMR → metabolomic relationship matrix → add as the 3rd adaptive modality.
-This is concrete, the data is in hand, the method is published, and it targets exactly the
-metabolism/disease-relevant traits.
+## Immediate next action (recommended, updated 2026-07-03)
+Tier 0 and Tier 1 are done (shipped / honest-negative-and-excluded); Tier 2 is executed and
+answered (negative, twice). Remaining concrete, scoped options, in priority order:
+1. **EmoryDrosophilaTau cross-lab replication** (`docs/EMORYDROSOPHILATAU_DOWNLOAD.md`) — independent
+   lab, strengthens the Tau-specific convergence result, which currently rests on one lab's data.
+   Awaiting user download (Synapse DUA).
+2. **Manuscript drafting** for both shipped resources (v1.1 predictor; v2 convergence finding) —
+   the project has reached a natural reporting point: a validated predictor, a validated
+   convergence finding, and two honest, well-powered disease-transfer nulls (Findings 12, 19).
+3. Tier 3 (CMap-for-flies) remains gated on Tier 2 turning positive — not pursued given the current
+   negative transfer result, per the "what we will NOT do" section above.

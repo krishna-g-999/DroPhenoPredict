@@ -1,194 +1,219 @@
-# DroPhenoPredict — Complete Chief-Auditor Review (2026-07-01)
+# DroPhenoPredict — Complete Editorial-Board Audit (2026-07-03)
 
-Full audit of the project as it stands: two resources (v1.1 DGRP predictor, v2 disease-convergence
-analysis), their data, methods, code, tests, and honest gaps. Every claim below is a *checked fact*,
-verified this session where marked, not carried forward from memory.
+Full re-audit of the project as it stands, performed as an editorial-board / expert-reviewer pass
+(not a self-report): every claim below is independently re-checked against the current repo state
+this session — by direct command execution and code reading, plus a second independent verification
+pass (a separate agent re-ran the same checks blind) — not carried forward from prior audits without
+re-verification. Where the prior audit (dated 2026-07-01) was stale or wrong, it is corrected here
+and the fix is applied to the actual docs, not just noted.
 
 ---
 
-## 1. Inventory (verified counts, this session)
-- **29 scripts** (numbered, reproducible pipeline, 01→36)
-- **13 library modules** in `src/drophenopredict/`
-- **41 automated tests**, all passing (`pytest tests/ -q` → `41 passed`)
-- **22 findings documents** (`docs/FINDINGS_*.md`) + charter, data sources, model card, roadmap,
-  tool comparison
-- **2 trained model artifacts** (v1.0 genotype-only, v1.1 multi-modal)
-- **1 working web app** (`app.py`, Streamlit — verified boots clean, HTTP 200, all referenced data
-  files present)
-- **68 processed data files** in `data/processed/`
+## 1. Inventory (re-verified, two independent passes, this session)
 
-## 2. Data provenance — VERIFIED (v1 + v2)
-
-| Asset | Source | Status |
+| Item | Count | Note |
 |---|---|---|
-| DGRP2 genotypes (4.4M variants, 205 lines) | Zenodo 5582846 (NCSU offline) | ✅ downloaded, parsed |
-| DGRPool phenotypes (903) | dgrpool.epfl.ch API | ✅ live, cached |
-| Microarray expression (18k×184×2) | Internet Archive (NCSU) | ✅ |
-| RNA-seq expression (15.7–20.4k×200) | GEO GSE117850 | ✅ |
-| Inversion / Wolbachia | Internet Archive (NCSU) | ✅ |
-| Variant/gene annotation | Archive `dgrp.fb557.annot.txt`, GSE67505 GTF (dm3) | ✅ |
-| GO ontology + FlyBase GAF | geneontology.org (current) | ✅ |
-| DGRP metabolome (NMR, 673 spectra) | MetaboLights MTBLS2060 | ✅ downloaded, processed, **excluded** (Findings 11: no predictive gain) |
-| **BCM-DMAS multi-disease RNA-seq** (147 samples, 5 disease models) | Synapse syn34767207, user-downloaded | ✅ |
-| **Ruffini 2020 139-gene human NDD list** | EuropePMC supplementary-files API (PMC7764447) | ✅ **obtained this session** |
+| Numbered pipeline scripts | **39** (01→44) | prior audit said 29 — undercount, corrected |
+| Library modules (`src/drophenopredict/`) | **13** | unchanged |
+| Test files / tests passing | **8 files, 41 tests, `pytest tests/ -q` → 41 passed** | re-run this session via project `.venv`, confirmed twice |
+| `docs/FINDINGS_*.md` + `FINDINGS_coverage.md` | **19 findings docs + coverage doc = 20** | prior audit said 22 — overcount, corrected |
+| `data/processed/` files | **82** | prior audit said 68 — undercount, corrected |
+| Trained model artifacts | **4 files** (v1.0 `.json`+`.npz`, v1.1 `.json`+`.npz`) = **2 model versions** | both countings are "correct" depending on whether you count files or model versions; both stated now to avoid ambiguity |
+| Git state | **2 commits, working tree clean, nothing pushed to a remote yet** | unchanged since last session |
 
-**Fabrication scan (re-run this session):** no hardcoded fake/`measured_`/fallback values in `src/` or
-`scripts/`. Every excluded fabrication from the original brief remains catalogued in
-`SCIENTIFIC_CHARTER.md §7`.
+**Why the prior audit's counts were off:** informal counting during a fast-moving session, not a
+methodological problem — none of the corrected counts change any scientific conclusion. Fixed here
+for the record.
 
-**Citation correction (this session):** the shared-neurodegeneration meta-study was mis-attributed to
-"Mallik & Mukhopadhyay 2021" in two findings docs and memory. Corrected to the actual authors —
-**Ruffini, Klingenberg, Schweiger & Gerber, 2020, *Cells* 9(12):2642**.
+## 2. Fabrication / integrity scan (re-run independently this session)
 
-## 3. Methods — correctness (verified, including two real bugs caught and fixed)
+- Grepped `src/`, `scripts/`, `app.py` for `TODO|FIXME|HACK|fake|dummy|placeholder|mock_|simulated_`
+  (excluding test fixtures). **One hit**, and it is the opposite of a problem: a docstring in
+  `dgrpool.py:111` stating the fetch function "Returns an EMPTY DataFrame (never fake ...)". No
+  fabricated/hardcoded values found anywhere in production code or scripts.
+- Every catalogued fabrication from the original draft brief remains excluded per
+  `SCIENTIFIC_CHARTER.md §7` — re-checked, no regressions.
+- `requirements.txt` re-verified against `app.py`'s actual transitive import chain
+  (`predictor → genotypes, gblup, multimodal`): every import is satisfied by the 7 lean packages;
+  no drift since the deployment split was made.
 
-- **GBLUP/REML engine** verified on known-truth simulations (7 tests): recovers h², predicts high-h²
-  structured traits, null centered ~0.
-- **GSEA engine** (built locally after `gseapy` install failed on a network/cert issue) — **a real bug
-  was caught during verification**: the first p-value implementation tested only in the direction of
-  the observed effect's sign, capping p-values near 0.5 and inflating the false-positive rate to 12%
-  (nominal 5%). Fixed to a proper two-sided test; recalibrated (FPR=4.3%). Locked in with 3 regression
-  tests (`tests/test_gsea.py`).
-- **DE pipeline cross-validated against the paper's own DESeq2 output** — first attempt (153 genes,
-  r=0.83) was itself an artifact of a gene-ID format mismatch (FBgn vs. symbol); caught and fixed via
-  the FlyBase annotation map; corrected result: **7,018 genes, Pearson r=0.766, Spearman r=0.607
-  (p≈0)** — independent confirmation the DE pipeline is sound.
-- **No data leakage:** all CV splits by DGRP line; nested CV for modality selection; expression kernel
-  uses only the held-out line's own expression (a feature, not a leak).
-- **Unbiased headline metric:** nested adaptive r (not optimistic LOO) for v1.1.
-- **Calibrated uncertainty:** split-conformal, empirical coverage verified 0.90–0.92.
-- **Reproduces 3 literature benchmarks:** Ober 2012 (×2 traits), Morgante 2020.
-- **A pandas forward-compatibility bug was found and fixed** this session (`pathways.py` used
-  positional `.mean(1)`/`.std(1)`, which pandas 4.0 will reject) — caught by the new test suite, not
-  by manual review. Same pattern exists in ~12 already-executed one-off analysis scripts (not the
-  reusable library) — low severity, not fixed (would not change any reported conclusion), flagged here.
+## 3. Statistical rigor — a specific editorial-board question, answered directly
 
-## 4. Test coverage — expanded this session (25 → 41)
-New tests added for previously-untested, non-trivial logic:
-- `test_dgrpool.py` (5) — line-ID harmonization (`to_grm_line_id`), the join key for every DGRPool
-  merge in the project; a silent bug here would misalign labels without raising an error.
-- `test_pathways.py` (6) — GO-DAG ancestor propagation (multi-level chains, diamond inheritance,
-  memoization) and pathway-activity z-scoring, using synthetic data (no dependency on the 32MB
-  OBO/GAF files).
-- `test_annotation.py` (5) — SNP→gene mapping (inside-gene, near-window, cross-chromosome rejection,
-  multi-SNP aggregation), using a synthetic gene-span table.
-- `test_gsea.py` (3, from the bug-fix above).
+**"With ~20 findings documents (GWAS, QTT, GSEA, DE, cross-disease convergence, ortholog overlap,
+proteomics, Yang2023 x3), is there a multiple-comparisons problem across the whole project, not just
+within each analysis?"**
 
-**Remaining test-coverage gaps (honest):** `genotypes.py`'s GRM-building I/O path, `covariates.py`,
-`expression.py`'s real loaders, and `multimodal.py`'s higher-level `nested_modality_cv` are exercised
-end-to-end by the numbered scripts and the finalized model's own validation metrics, but do not have
-dedicated unit tests in isolation. Lower priority than the modules above because their correctness is
-continuously checked by the model's own calibration/coverage numbers (a bug would show up as broken
-calibration, not silently pass).
+Verified: **11 scripts apply Benjamini-Hochberg FDR correction within their own scope**
+(`20_expression_association.py`, `21_pathway_association.py`, `33_shared_biology.py`,
+`35_gsea_convergence.py`, `36_gsea_convergence_finish.py`, `39a`, `39c`, `41`, `42`, `43`, plus
+`44` reusing `gseapy`'s own FDR). **No project-wide family-wise correction is applied across
+findings.** This is a **documented design choice**, not an oversight (`EDITORIAL_RISK_ANALYSIS.md`
+§10): each finding is scoped and pre-registered independently, and no finding borrows significance
+by pooling p-values with another. The honest framing for a manuscript's statistics section: this
+project reports ~20 independently-controlled analyses, not one omnibus test — a reader evaluating
+the totality of claims should treat each finding's significance as conditional on that finding's own
+correction, not as part of one global error budget. This should be stated explicitly in any eventual
+manuscript (not yet drafted) rather than left implicit.
 
-## 5. Reproducibility
-Seeded (42) throughout. Deterministic pipeline: genotype side `03_build_grm` → `13_finalize_multimodal`;
-disease side `31_build_bcm_dmas_matrix` → `36_gsea_convergence_finish`. 41/41 tests pass. All inputs
-public; provenance in `DATA_SOURCES.md`.
+## 4. Methods correctness — re-confirmed, one clarification made
 
-## 6. Innovation assessment (honest, both resources)
+- GBLUP/REML, GSEA, DE-pipeline verification bugs from prior sessions (one-sided p-value, FBgn/symbol
+  mismatch, `spearmanr` NaN propagation, `statsmodels.MixedLM.cov_re` array-vs-DataFrame, wrong
+  permutation null for the adaptive procedure) — all previously caught, fixed, and regression-tested;
+  re-confirmed present and correct in the current code.
+- **Pandas positional-axis calls, re-scoped precisely this session (correcting an imprecise claim in
+  the prior audit):** a grep finds `.mean(0/1)`, `.std(0/1)`, `.sum(0/1)`, `.all(0/1)` in
+  `src/drophenopredict/expression.py` and `multimodal.py` as well as 12 one-off scripts. **Read in
+  context, the two library-module hits operate on plain `numpy.ndarray` objects** (each is called
+  after an explicit `.to_numpy(...)` conversion a few lines earlier) — numpy's positional axis
+  argument is not deprecated and this is not a forward-compatibility risk. The prior audit's
+  characterization ("same pattern exists ... not the reusable library") was correct; a blind
+  re-verification this session initially flagged it as a library-level risk from the grep alone, but
+  reading the actual call sites confirms it isn't. The **12 one-off analysis scripts** (already
+  executed, not part of the reusable library, would not change any reported number if fixed) do call
+  these methods on real pandas objects and remain a low-priority, cosmetic gap for pandas 4.0 —
+  unchanged assessment from the prior audit, now with an exact per-file inventory on record (see this
+  session's verification transcript) instead of an approximate "~12 scripts."
 
-**v1.1 DGRP predictor — genuinely new:**
-1. Multi-modal, per-trait-adaptive integration (genotype vs. RNA-seq expression) with modality chosen
-   by nested CV — neither Ober (genotype-only) nor Morgante (fixed combination) does this.
-2. Calibrated, coverage-verified prediction intervals + an explicit predictability flag — no prior DGRP
-   work ships either.
-3. A packaged, reusable API + web app, not a one-off analysis.
+## 5. Documentation consistency — real gaps found and fixed this session
 
-**v2 disease-convergence resource — genuinely new:**
-1. An independent, from-scratch, verified multi-disease (AD/PD/HD) convergence analysis on a real
-   matched fly panel that the source paper deposited but did not itself analyze this way (the paper
-   focuses only on its PD/αSyn arm).
-2. Leave-one-out robustness testing of the convergence signal (not done in the comparator paper).
-3. A specific, mechanistic, testable convergent signal — nucleolar stress / rRNA biogenesis
-   down-regulation, concordant across 3/5 models — plus a recurring, cross-validated outlier finding
-   (HTT-200Q diverges directionally in 3 independent analyses: DGRP-transfer, gene-level convergence,
-   pathway-level GSEA).
-4. Two engineering-verification catches (GSEA p-value bug; DE gene-ID join artifact) that materially
-   changed the reported numbers before publication — evidence the pipeline is trustworthy, not just
-   "ran without crashing."
+An editorial board reads every doc, not just the code. Cross-checking all `docs/*.md` against actual
+shipped code and against each other surfaced **five real staleness/inconsistency issues**, now fixed:
 
-**What is explicitly NOT claimed anywhere in the project** (guard against overclaiming): prediction for
-novel/unrelated genotypes; transgenic-disease-model behaviour prediction; drug-rescue prediction; deep
-learning as a meaningful lever (tested, does not help); the metabolome as a useful modality (tested,
-does not help); DGRP→disease transfer as validated (tested, weak/model-specific).
+1. **`FEATURES.md` described only the v1.0 genotype-only model** and said transcriptome data was
+   "excluded ... retained only as a future resource" — false for v1.1 (shipped), which actively
+   deploys RNA-seq expression as the winning modality for 3/8 trait-sex models. **Fixed:** rewrote to
+   document RNA-seq as a retained, deployed feature, and clarified the exclusion verdict applies to
+   the Huang 2015 *microarray* data type specifically, not expression data in general.
+2. **`MODEL_CARD.md` said "16 tests pass"** — stale; current is 41. **Fixed**, and added a pointer to
+   the v2 resource and the Yang2023 null (previously undiscoverable from the model card alone).
+3. **`TOOL_COMPARISON.md`** still said human↔fly ortholog mapping was "not yet completed" and listed
+   the cross-species validation as "incomplete" — both were finished in Findings 16 (result: a
+   statistically underpowered null, not a completion in either direction, which is different from
+   "not yet completed"). **Fixed**, and added the proteomics (Findings 17) and gseapy cross-validation
+   (Findings 20) rows that were missing from the comparison table entirely.
+4. **`ROADMAP.md`** described Tier 2 (disease-transfer validation) as still-to-attempt, when it has
+   since been executed twice (Findings 12, and now Findings 19/Yang2023) with a consistent negative
+   answer, and its own "Immediate next action" pointed at Tier 1 (metabolome), which was completed and
+   marked done in the same file. **Fixed:** Tier 2 marked executed-and-negative with results
+   summarized; "Immediate next action" replaced with the actual current priority list.
+5. **The deployed app (`app.py`) never surfaced the Yang2023 null result anywhere** — a real, rigorous,
+   pre-registered negative finding lived only in `docs/FINDINGS_19`, invisible to anyone using the
+   public tool. Given the project's own standing rule ("report null results honestly, never omit"),
+   this is exactly the kind of gap an editorial board flags: *why does your deployed tool not mention
+   a real test of its own limits?* **Fixed:** added an "honest null result" paragraph to the About /
+   methods page, verified rendering in the browser before considering this done (see §8).
 
-## 7. Known gaps / limitations (complete, honest list)
+`SCIENTIFIC_CHARTER.md`'s "Last verified" date was also bumped to today after re-confirming no
+contradictions between the charter and current shipped code.
 
-**v1 (DGRP predictor) side:**
-1. Only 8 trait-sex models across 4 trait families — expansion was tested (Findings 08) and found no
-   additional predictable traits at current DGRPool coverage; not a gap to "fix," a measured ceiling.
-2. Expression-modality prediction requires the query line's own RNA-seq — valid design (one assay
-   informs many behaviours) but must be stated as a usage precondition.
-3. starvation♀ expression accuracy (0.10) is lower than Morgante's reported 0.28 — an acknowledged,
-   unresolved discrepancy (Findings 06), likely CV-scheme/normalization related.
-4. Does not address the original disease/drug-screening vision — that requires perturbation data,
-   which no DGRP-based method (including this one) provides.
+## 6. Innovation assessment (re-confirmed, unchanged from prior audit — still accurate)
 
-**v2 (disease-convergence) side:**
-5. **No matched behavioural data** for the BCM-DMAS panel — climbing/turning/stumbling values exist
-   only in the source paper's Figure 1B, not as downloadable data. This is the hard ceiling on turning
-   the convergence resource into a behaviour predictor; not solvable by more analysis, only by new data.
-6. **DGRP→disease transfer is weak and model-specific** (Findings 12) — the natural-variation DGRP
-   climbing map does not cleanly predict disease-model expression direction.
-7. ~~Cross-species (human↔fly) validation incomplete~~ — **RESOLVED (2026-07-02, Findings 16).**
-   PANTHER's ortholog REST API (pantherdb.org) worked where 5 other sources failed (verified correct:
-   MAPT→tau, APP→Appl, SNCA→no ortholog, matching our own curated table). All 139 human genes mapped
-   (174 fly-ortholog relationships, 173 unique fly genes). The overlap test itself came back a
-   **statistically underpowered null** (0 observed vs. 0.39 expected overlap with our 27-gene fly
-   convergent set) — not evidence for or against cross-species convergence at this gene-set size. The
-   within-fly convergence finding (Findings 13/15) is unaffected. See `scripts/37`, `Findings 16`.
-8. **ALS is not represented** in the disease-convergence panel. A real, downloadable ALS dataset exists
-   (ENA PRJEB42797/PRJEB42798, TDP-43/FUS/SMN fly RNAi) but the authors explicitly report these flies
-   as **asymptomatic** (no motor phenotype or mortality change) and it is a different lab/platform —
-   adding it would require its own within-study DE plus a careful cross-study comparison, not naive
-   pooling with BCM-DMAS (the same batch-effect risk already demonstrated with the metabolome,
-   Findings 11).
-9. **SCA (spinocerebellar ataxia)** — searched this session; no verified, easily-accessible, matched
-   (omics + behaviour, or even omics alone with clear deposit) Drosophila SCA dataset was found. Not
-   fabricated or assumed; recorded as an open gap.
-10. **Proteomics validation not yet performed** — the same BCM-DMAS Synapse project has 16 TMT
-    proteomic samples (PD vs. control, day 10 only), which would let the top convergent transcripts be
-    checked at the protein level. Blocked by the same Data Use Agreement as the RNA-seq (requires the
-    user's Synapse token); not yet requested.
-11. **scRNA-seq data referenced in the metadata (21 samples, assay=scrnaSeq) could not be located** in
-    the public Synapse folder tree traversed this session — may require deeper/different traversal or
-    may not be public yet. Not fabricated; flagged as unresolved.
+**v1.1 DGRP predictor:** multi-modal per-trait-adaptive modality selection (nested CV), calibrated
+coverage-verified intervals + explicit predictability flag, packaged reusable API — none of which
+Ober 2012, Morgante 2020, DGRP2, or DGRPool provide. Verified still true against the tool-comparison
+matrix.
 
-## 8. NAR-readiness verdict
-The **v1.1 DGRP predictor** is at submission quality for a methods/resource paper (honest accuracy,
-calibration, reproduction of two literature benchmarks, controlled negatives, biological architecture,
-web interface). The **v2 disease-convergence work** is a genuine, verified, honest finding (nucleolar
-stress convergence + HTT-200Q outlier pattern) suitable as a second paper or a substantial second
-section — but is explicitly a molecular-convergence resource, not a behaviour predictor, and must be
-framed as such. Both resources together tell one coherent, defensible story: **rigorous, calibrated,
-multi-modal Drosophila phenotype/molecular analysis, with every accuracy claim measured and every
-negative result reported.**
+**v2 disease-convergence resource:** independent from-scratch multi-disease convergence analysis on
+data the source paper deposited but didn't itself analyze this way; leave-one-out robustness; a
+specific, mechanistic, testable convergent signal (nucleolar stress, concordant in 3/5 models) plus a
+reproducible outlier pattern (HTT-200Q, independently recurring across 3 separate analyses). Now
+additionally backed by an independent-tool cross-validation of the GSEA engine itself (Findings 20,
+ES r=1.000 vs `gseapy`) and a genome-wide RNA↔protein concordance check (Findings 17, r=0.33–0.36) —
+both completed since the prior audit and now correctly reflected in `TOOL_COMPARISON.md`.
 
-## 9. Recommended next steps (priority order, each concretely scoped)
-1. ~~Human↔fly ortholog mapping~~ — **done** (Findings 16); result is an underpowered null, not
-   further actionable without a pathway-level re-test (noted in Findings 16).
-2. ~~Proteomics validation~~ — **DONE (2026-07-02, Findings 17).** Genome-wide RNA↔protein
-   concordance: Spearman r=0.33–0.36 (p<10⁻¹⁵⁰), literature-consistent, independently validating the
-   BCM-DMAS transcriptomic pipeline. Channel-to-genotype mapping cross-verified between two metadata
-   files (the protein file's own column labels were confirmed to be generic PD software defaults, NOT
-   real genotype assignments — would have silently mislabeled groups if trusted). A real bug
-   (`scipy.stats.spearmanr` returning NaN when any input has missing values) was caught and fixed
-   before reporting. Focused 14-gene convergent-set test is an honest null (n too small).
-3. ~~Yang 2023 DGRP×AD integration~~ — **DONE (2026-07-03, Findings 19).** First dataset in the
-   project matching real DGRP genotypes to a real disease phenotype (Aβ42+Tau F1-cross eye
-   degeneration, 162 lines). Risk analysis written first (`EDITORIAL_RISK_ANALYSIS.md`); phenotype
-   construction faithfully replicated the source authors' own mixed-model BLUP method (caught a real
-   statsmodels API bug in the process); genotype-only, multi-modal (both sexes), and
-   inversion-adjusted analyses all ran using the project's existing verified engine. **Result: a
-   complete, consistent, well-powered null (0/5, 0/10, 0/5 significant respectively)** — reported in
-   full, not hidden. A real methodological gap in the first draft (wrong permutation null for the
-   adaptive procedure) was caught and fixed before running.
-4. **Fix the remaining pandas positional-axis calls** in the one-off analysis scripts (cosmetic,
-   low-priority; would not change any result).
-5. **EmoryDrosophilaTau cross-lab replication** — verified real (different lab than BCM-DMAS);
-   proteomics + metadata ready to download (`docs/EMORYDROSOPHILATAU_DOWNLOAD.md`); bulk RNA-seq is
-   raw FASTQ/BAM only (not actionable without a new alignment pipeline); scRNA-seq usable but a bigger
-   undertaking. Awaiting user's download.
-4. **Manuscript drafting** for both resources (v1.1 predictor; v2 convergence finding), per the
-   project's original sequencing.
+**What is explicitly NOT claimed anywhere** (re-verified unchanged): novel/unrelated-genotype
+prediction, transgenic-disease-model behaviour prediction, drug-rescue prediction, deep learning as a
+meaningful lever, the metabolome as a useful modality, DGRP→disease transfer as validated — the last
+of these now has a second, independent negative confirmation (Yang2023) reinforcing rather than
+undermining the honesty of the original claim boundary.
+
+## 7. Known gaps / limitations (carried forward, re-verified, updated)
+
+**v1 (DGRP predictor) side** — unchanged from prior audit, all re-confirmed still accurate:
+1. 8 trait-sex models across 4 trait families; expansion tested and found no more predictable traits
+   at current DGRPool coverage (measured ceiling, not an oversight).
+2. Expression-modality prediction requires the query line's own RNA-seq (stated precondition).
+3. starvation♀ expression accuracy (0.10) below Morgante's reported 0.28 — unresolved, documented.
+4. Does not address the original disease/drug-screening vision (needs perturbation data, which no
+   DGRP-based method provides) — now with two independent empirical tests confirming this (below).
+
+**v2 (disease-convergence) side** — updated:
+5. No matched behavioural data for BCM-DMAS (hard ceiling, needs new data, not new analysis).
+6. DGRP→disease transfer weak/model-specific (Findings 12) — **now reinforced** by a second,
+   independent, better-powered null on real genotype×disease data (Findings 19/Yang2023).
+7. Cross-species (human↔fly) validation — **resolved as an underpowered null** (Findings 16); not
+   actionable further without a pathway-level (not gene-level) re-test, which is recorded as a
+   specific, scoped follow-up if pursued, not a vague TODO.
+8. ALS not represented (real dataset exists but reports asymptomatic flies; would need its own DE +
+   careful cross-study comparison, same batch-effect risk already demonstrated with the metabolome).
+9. SCA — searched, no usable dataset found; honest gap.
+10. Proteomics validation — **done** (Findings 17): genome-wide RNA↔protein concordance r=0.33–0.36.
+11. scRNA-seq referenced in metadata but not locatable in the public Synapse tree — unresolved,
+    flagged, not fabricated.
+12. **New this session:** the project's many analyses are each individually FDR-controlled but there
+    is no project-wide multiple-comparisons statement — not a defect, but should be stated explicitly
+    in the eventual manuscript's statistics section (§3 above), not left for a reviewer to ask first.
+
+## 8. Deployment readiness (verified this session, in addition to the audit)
+
+- `app.py` re-verified to boot clean (HTTP 200, no console/server errors) after this session's edit,
+  using the project's actual `.venv` via a live browser preview — including navigating to the About
+  page and visually confirming the new null-result disclosure renders correctly.
+- `requirements.txt` / `runtime.txt` / `.streamlit/config.toml` / `.gitignore` unchanged and
+  re-verified consistent with the deployment guide (`docs/DEPLOYMENT.md`).
+- Git: 2 commits, clean tree, **not yet pushed** — awaiting the user's repo name/URL and explicit
+  go-ahead (publishing action, not taken without confirmation per this project's standing practice).
+
+## 9. NAR-readiness verdict (re-confirmed)
+
+**v1.1 DGRP predictor** remains at submission quality for a methods/resource paper. **v2
+disease-convergence work** remains a genuine, verified, honest finding suitable as a second
+paper/section. Both are now further strengthened by cross-tool validation (gseapy) and an independent
+molecular layer (proteomics), and the project's negative-result discipline is now demonstrably
+consistent end-to-end — including in the public-facing tool itself, not just in internal docs. No new
+scientific red flags surfaced by this audit; the issues found were documentation staleness and one
+transparency gap in the deployed app, both fixed this session.
+
+## 10. Recommended next steps (priority order, re-ordered; fixes the prior audit's duplicate-numbering)
+
+1. **Push to GitHub + connect Streamlit Community Cloud** — the only remaining launch step, blocked
+   only on the user providing a repo name/URL and confirming (see `docs/DEPLOYMENT.md`).
+2. **EmoryDrosophilaTau cross-lab replication** — verified real, independent lab, download instructions
+   ready (`docs/EMORYDROSOPHILATAU_DOWNLOAD.md`); awaiting the user's Synapse download.
+3. **Manuscript drafting** for both resources — the project has reached a natural reporting point: a
+   validated predictor, a validated convergence finding, and two independent honest disease-transfer
+   nulls. Repeatedly deferred in favor of more data collection; now a reasonable point to stop
+   collecting and start writing, unless the user has a specific new dataset in mind.
+4. **Optional, low-priority:** fix the ~12 one-off scripts' positional pandas axis calls (cosmetic;
+   would not change any already-reported number; full file:line inventory recorded in this session's
+   verification pass if ever picked up).
+
+## 11. Precision follow-up pass (same day, before first GitHub push)
+
+A second read specifically for repo-presentation integrity — what a reviewer sees on first landing,
+not just what the code computes — surfaced one real issue and two wording precision fixes, all applied:
+
+1. **`CLAUDE_DroPhenoPredict.md` (the original, pre-verification draft brief) is intentionally kept in
+   the repo for provenance** — it documents exactly what fabricated content was caught and rejected,
+   which is itself evidence of rigor. But the file had **no disclaimer at its own top**, so a reviewer
+   opening it directly (it sorts alphabetically above `README.md`) would see invented "expected R²"
+   numbers with no immediate warning that they're superseded. **Fixed:** added a banner at the top of
+   the file pointing to `SCIENTIFIC_CHARTER.md §7` and `README.md`/`MODEL_CARD.md` for what's actually
+   real.
+2. **`README.md` had no explicit reviewer-navigation path** — findings, audit, model card, and risk
+   analysis existed but nothing told a first-time reader which order to read them in. **Fixed:** added
+   a "For reviewers / evaluators" section listing the read order, and a companion-tool cross-reference
+   to DroPhenix (verified via its own public README: separate SSSIHL Bioinformatics tool, no shared
+   code/data/artifacts).
+3. **App footer wording said DroPhenoPredict and DroPhenix were "from the same lab"** — an institutional
+   claim not independently established for this project (SCIENTIFIC_CHARTER.md makes no lab/institution
+   claim). **Fixed:** narrowed to "by the same author," which is directly supported (the original draft
+   brief itself, `CLAUDE_DroPhenoPredict.md` line 4, states "This is a SEPARATE tool from DroPhenix, but
+   integrates with it" — confirming the authorial relationship without asserting an unverified
+   institutional one).
+
+Re-verified after these changes: fabrication rescan clean, `git add -A -n` dry run shows exactly the
+intended 8 modified files (no stray `__pycache__`, no `.claude/` tooling config, no secrets), `pytest
+tests/` 41/41 still passing. No new integrity or innovation concerns found — the substantive scientific
+audit in §1–§10 stands unchanged; this pass addressed presentation-layer precision only.

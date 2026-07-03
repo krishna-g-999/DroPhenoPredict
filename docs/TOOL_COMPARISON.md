@@ -56,7 +56,9 @@ molecular convergence across neurodegeneration models, not trait prediction for 
 | Cross-study batch handling | meta-analysis across heterogeneous studies | single lab/platform (no batch issue) | single lab/platform (same as npj PD 2025) — avoids the batch-effect risk of pooling heterogeneous studies |
 | Robustness testing | not reported | not applicable | **leave-one-out reported** (convergence survives excluding any model) |
 | Independent DE validation | — | — | **cross-checked against the paper's own DESeq2 output** (r=0.77, 7,018 genes) |
-| Human↔fly cross-species check | N/A (human-only) | N/A | 139-gene human list obtained (Ruffini S1, via EuropePMC); ortholog mapping not yet completed (network access barrier this session, documented in AUDIT.md) |
+| Human↔fly cross-species check | N/A (human-only) | N/A | **Completed** (Findings 16, PANTHER ortholog API): 139 human genes → 173 fly orthologs; overlap with our 27-gene fly convergent set is a statistically **underpowered null** (0 observed vs. 0.39 expected) — not evidence for or against cross-species convergence at this gene-set size |
+| Proteomics (RNA↔protein concordance) | N/A | not performed | **Completed** (Findings 17): genome-wide Spearman r=0.33–0.36 (p<10⁻¹⁵⁰) between independently-computed transcript and protein log2FC — validates the transcriptomic convergence pipeline |
+| Independent GSEA engine cross-check | N/A | N/A | **Completed** (Findings 20): local GSEA engine vs. `gseapy` on identical input — ES Pearson r=1.000, 100% direction agreement |
 
 ## What is genuinely new on the disease side
 1. **A verified, from-scratch multi-disease convergence analysis in flies** — the npj PD 2025 paper
@@ -72,4 +74,11 @@ molecular convergence across neurodegeneration models, not trait prediction for 
   only in the source paper's Figure 1B, not as downloadable data.
 - The DGRP→disease transfer test (Findings 12) found only a weak, model-specific relationship — we do
   **not** claim the DGRP predictor extends to these disease models.
-- The human-gene cross-species validation is incomplete (data in hand, ortholog mapping pending).
+- The human-gene cross-species overlap test came back an underpowered null (Findings 16) — we do
+  **not** claim this proves or disproves cross-species molecular convergence, only that this
+  particular gene-level test lacks the power to distinguish the two.
+- A real, matched DGRP-genotype × AD-transgene phenotype was tested directly (Yang et al. 2023,
+  `docs/FINDINGS_19`) — genotype-only, multi-modal, and inversion-adjusted GBLUP all came back a
+  complete, well-powered **null** (0/5, 0/10, 0/5 significant). We do not claim the DGRP predictor's
+  accuracy extends to disease-transgene phenotypes; this is the direct empirical test of that
+  question, not a hypothetical caveat.

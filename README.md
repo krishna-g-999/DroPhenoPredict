@@ -81,4 +81,16 @@ tests/   correctness + leakage guards
 ```
 
 ## Provenance
-This project supersedes the draft spec in `CLAUDE_DroPhenoPredict.md`. That draft contained fabricated placeholder values (invented phenotype/drug/validation numbers); those are catalogued and excluded in Charter §7 and `DATA_SOURCES.md`. The valid engineering rules from it (GroupKFold by line, SHAP, pathway-collapse, reproducibility) are retained.
+This project supersedes the draft spec in `CLAUDE_DroPhenoPredict.md`. That draft contained fabricated placeholder values (invented phenotype/drug/validation numbers); those are catalogued and excluded in Charter §7 and `DATA_SOURCES.md`. The valid engineering rules from it (GroupKFold by line, SHAP, pathway-collapse, reproducibility) are retained. **The draft file itself is kept, with a disclaimer banner at its top, purely as a record of what was caught and rejected — it is not a description of the shipped tool.**
+
+## For reviewers / evaluators
+
+Read in this order:
+1. `docs/SCIENTIFIC_CHARTER.md` — the governing rules (no fabrication, validated-core vs. extrapolation-layer boundary).
+2. `docs/AUDIT.md` — the current, dated, independently-verified chief-auditor / editorial-board audit: inventory, integrity scan, statistical-rigor assessment, documentation-consistency fixes, known gaps, deployment readiness.
+3. `docs/MODEL_CARD.md` (v1 predictor) and `docs/TOOL_COMPARISON.md` (both resources vs. prior work) — what is claimed, what is measured, what is explicitly not claimed.
+4. `docs/EDITORIAL_RISK_ANALYSIS.md` — anticipated reviewer objections, addressed by design decision before the Yang 2023 integration was built.
+5. `docs/FINDINGS_*.md` — the full, numbered sequence of analyses, including honest negative/null results (metabolome, DGRP→disease transfer, Yang 2023 AD-degeneration, cross-species ortholog overlap).
+6. `pytest tests/` (41 tests) reproduces the correctness/leakage guards; `scripts/03`→`44` reproduce every result from raw/public data.
+
+**Companion tool by the same author:** [DroPhenix](https://github.com/krishna-g-999/DroPhenix) — a separate, multi-assay Drosophila phenotyping and cross-strain compound-ranking platform. No shared code, data, or model artifacts; cross-referenced in the app UI for discoverability only.

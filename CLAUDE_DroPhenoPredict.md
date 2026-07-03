@@ -1,3 +1,12 @@
+> **⚠ SUPERSEDED DRAFT — kept only for provenance, not a description of the shipped tool.**
+> This is the *original* project brief, written before any data existed. It contains **fabricated
+> placeholder numbers** (invented phenotype values, invented external-validation datasets, invented
+> drug-target scores, an aspirational "expected R²" table) that were identified and explicitly
+> **excluded** — see `docs/SCIENTIFIC_CHARTER.md §7` for the full, itemized correction list and
+> `docs/DATA_SOURCES.md` for what was actually verified and used instead. Nothing on this page should
+> be read as a claim about the actual model's accuracy, data, or capabilities — for that, see
+> `README.md`, `docs/MODEL_CARD.md`, and `docs/AUDIT.md`.
+
 # CLAUDE.md — DroPhenoPredict v1.0
 # New tool: in silico Drosophila behavioral prediction from multi-omics features
 # Place this file in a NEW directory: ~/DroPhenoPredict/

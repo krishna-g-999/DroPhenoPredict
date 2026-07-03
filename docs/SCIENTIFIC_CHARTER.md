@@ -1,7 +1,8 @@
 # DroPhenoPredict — Scientific Charter
 
 **Status:** Foundational governance document. Every modeling decision must be traceable to this file.
-**Last verified:** 2026-06-28
+**Last verified:** 2026-07-03 (editorial-board audit — re-checked against current repo state, no
+contradictions found; see `AUDIT.md`)
 **Governing principle:** No fabricated data. No invented numbers. No unverified claim presented as fact. Every value in this project is either (a) downloaded from a cited public source, (b) computed by reproducible code from such a source, or (c) explicitly labelled as a hypothesis/placeholder pending verification.
 
 ---

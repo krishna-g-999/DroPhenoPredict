@@ -35,7 +35,7 @@ leave-one-out reconstruction. Multi-modal gain is largest where genotype fails: 
 - **Unbiased accuracy:** nested CV — modality selection never sees the test fold.
 - **Calibrated uncertainty:** split-conformal with measured coverage (≈ nominal).
 - **Significance:** 200-permutation test per model vs the adaptive R².
-- **Engine verified** on known-truth simulations (`tests/`, 16 tests pass).
+- **Engine verified** on known-truth simulations (`tests/`, 41 tests pass, verified 2026-07-03).
 - **Reproduces 3 literature benchmarks:** Ober 2012 (genotype startle/starvation r≈0.23/0.24),
   Morgante 2020 (expression starvation♂ r≈0.38). All inputs public (`docs/DATA_SOURCES.md`).
 
@@ -58,4 +58,14 @@ leave-one-out reconstruction. Multi-modal gain is largest where genotype fails: 
 
 ## Ethics / reproducibility
 *Drosophila* only; designed to reduce animal/resource use. Seeded (42). Rebuild:
-`scripts/03_build_grm.py` → `scripts/13_finalize_multimodal.py`; validate `pytest tests/` (16 tests).
+`scripts/03_build_grm.py` → `scripts/13_finalize_multimodal.py`; validate `pytest tests/` (41 tests).
+
+## Related resource (separate model, same tool)
+A second, separately-scoped resource ships in the same app: a multi-disease (AD/PD/HD)
+**molecular-convergence** analysis on the BCM-DMAS fly panel — not a phenotype predictor, no
+shared model artifact with the above. See "Disease convergence (v2)" in `app.py` and
+`docs/TOOL_COMPARISON.md` Part 2. A related, honest **null result** — this predictor's own
+GBLUP/multi-modal engine applied to a real DGRP×AD-transgene degeneration phenotype (Yang et al.
+2023) — found 0/5, 0/10, 0/5 significant across three robustness checks (`docs/FINDINGS_19`).
+Reported for completeness: this predictor's accuracy claims above are for the 8 trait-sex models
+it actually ships, not a claim that the same approach works for every DGRP-adjacent phenotype.
