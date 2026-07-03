@@ -4,7 +4,18 @@
 # NOT installed here, to keep cloud builds fast and reduce failure surface.
 # Verified: app.py's import chain (predictor -> genotypes, gblup, dgrpool)
 # needs exactly these packages, nothing more.
-streamlit>=1.37
+#
+# streamlit pinned EXACTLY (not >=) to the version actually tested locally.
+# Reason: "TypeError: Failed to fetch dynamically imported module" on
+# Community Cloud is a known, unresolved Streamlit front-end issue (see
+# streamlit/streamlit#10510, discuss.streamlit.io t/92038) triggered by
+# stale cached JS chunk hashes after a redeploy/sleep-wake cycle. An
+# open-ended >= range lets Cloud silently install a newer, untested
+# Streamlit build at any redeploy, adding a second source of asset-hash
+# drift on top of the known caching bug. Pinning removes that variable;
+# it does not fix the underlying Streamlit Cloud bug (browser cache
+# clear / app reboot is the confirmed workaround for that).
+streamlit==1.58.0
 pandas>=2.2
 numpy>=1.26
 scipy>=1.13
