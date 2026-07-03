@@ -1,0 +1,61 @@
+GO_id,pathway,r,p,fdr,is_metabolic
+GO:0006206,pyrimidine nucleobase metabolic process,-0.232,0.0017246690614497837,0.9999,True
+GO:0009112,nucleobase metabolic process,-0.216,0.003587573259640604,0.9999,True
+GO:0035269,protein O-linked glycosylation via mannose,0.206,0.005444401234126636,0.9999,True
+GO:0009070,serine family amino acid biosynthetic process,-0.191,0.010069552900623153,0.9999,False
+GO:0010171,body morphogenesis,0.182,0.01450853152065696,0.9999,False
+GO:0006697,ecdysone biosynthetic process,-0.176,0.017988805205647638,0.9999,False
+GO:0008205,ecdysone metabolic process,-0.176,0.018045484845512307,0.9999,True
+GO:0035148,tube formation,-0.175,0.01846380839022159,0.9999,False
+GO:0035149,"lumen formation, open tracheal system",-0.175,0.019119689617938754,0.9999,False
+GO:0046112,nucleobase biosynthetic process,-0.174,0.01923573535652685,0.9999,False
+GO:0160175,somatic muscle attachment to chitin-based cuticle,-0.173,0.02023861574048067,0.9999,False
+GO:0006826,iron ion transport,-0.171,0.021944935218497698,0.9999,False
+GO:0006144,purine nucleobase metabolic process,-0.163,0.028792588427912727,0.9999,True
+GO:0031340,positive regulation of vesicle fusion,0.16,0.03238036166120915,0.9999,False
+GO:0043171,peptide catabolic process,-0.159,0.03251068567345516,0.9999,False
+GO:0006721,terpenoid metabolic process,0.157,0.0352302720868809,0.9999,True
+GO:0009395,phospholipid catabolic process,-0.156,0.036484359168265916,0.9999,True
+GO:0043255,regulation of carbohydrate biosynthetic process,0.155,0.03762189848964156,0.9999,True
+GO:0006620,post-translational protein targeting to endoplasmic reticulum membrane,-0.155,0.03793061476166514,0.9999,False
+GO:0040003,chitin-based cuticle development,0.153,0.04016741981336387,0.9999,False
+GO:0031338,regulation of vesicle fusion,0.152,0.041243869481556124,0.9999,False
+GO:0001523,retinoid metabolic process,0.152,0.041684635832001736,0.9999,True
+GO:0016101,diterpenoid metabolic process,0.152,0.041684635832001736,0.9999,True
+GO:0006013,mannose metabolic process,-0.151,0.043283045972032676,0.9999,True
+GO:0034755,iron ion transmembrane transport,-0.151,0.04340776067132201,0.9999,False
+GO:1903532,positive regulation of secretion by cell,-0.151,0.04357261149246365,0.9999,False
+GO:1902653,secondary alcohol biosynthetic process,-0.15,0.044483592504908444,0.9999,False
+GO:0048102,autophagic cell death,-0.149,0.0453893471165224,0.9999,False
+GO:0008343,adult feeding behavior,0.148,0.046777871890341334,0.9999,False
+GO:1905039,carboxylic acid transmembrane transport,-0.148,0.047060139359726416,0.9999,False
+GO:0061687,detoxification of inorganic compound,-0.147,0.04882664216885257,0.9999,False
+GO:0000479,"endonucleolytic cleavage of tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",-0.146,0.05002035025357974,0.9999,False
+GO:0046887,positive regulation of hormone secretion,-0.145,0.05135065291263246,0.9999,False
+GO:0042430,indole-containing compound metabolic process,0.143,0.05500105825546102,0.9999,True
+GO:0051047,positive regulation of secretion,-0.143,0.055948985253649816,0.9999,False
+GO:0140253,cell-cell fusion,-0.142,0.05803102860841935,0.9999,False
+GO:0007520,myoblast fusion,-0.142,0.05803102860841935,0.9999,False
+GO:0000768,syncytium formation by cell-cell fusion,-0.142,0.05803102860841935,0.9999,False
+GO:0014902,myotube differentiation,-0.142,0.05803102860841935,0.9999,False
+GO:0000447,"endonucleolytic cleavage in ITS1 to separate SSU-rRNA from 5.8S rRNA and LSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",-0.14,0.060011618991255795,0.9999,False
+GO:1990359,stress response to zinc ion,-0.14,0.06073816892330295,0.9999,False
+GO:0010312,detoxification of zinc ion,-0.14,0.06073816892330295,0.9999,False
+GO:0051646,mitochondrion localization,-0.139,0.061846345044438825,0.9999,True
+GO:0000302,response to reactive oxygen species,0.139,0.06330223888825016,0.9999,False
+GO:0042335,cuticle development,0.139,0.0636647535182224,0.9999,False
+GO:0006518,peptide metabolic process,-0.136,0.06829737717053995,0.9999,True
+GO:0016318,ommatidial rotation,-0.134,0.07281507672906577,0.9999,False
+GO:0006900,vesicle budding from membrane,-0.133,0.07507967712229961,0.9999,False
+GO:0015807,L-amino acid transport,-0.133,0.07606928914265008,0.9999,False
+GO:0000462,"maturation of SSU-rRNA from tricistronic rRNA transcript (SSU-rRNA, 5.8S rRNA, LSU-rRNA)",-0.131,0.07983571127522628,0.9999,False
+GO:0035160,"maintenance of epithelial integrity, open tracheal system",-0.131,0.0798767994077151,0.9999,False
+GO:0010634,positive regulation of epithelial cell migration,-0.129,0.08339860740812803,0.9999,False
+GO:1902475,L-alpha-amino acid transmembrane transport,-0.129,0.08507283003399688,0.9999,False
+GO:1903688,positive regulation of border follicle cell migration,-0.128,0.08581048640134636,0.9999,False
+GO:0048935,peripheral nervous system neuron development,-0.128,0.08642422836210939,0.9999,False
+GO:0048934,peripheral nervous system neuron differentiation,-0.128,0.08642422836210939,0.9999,False
+GO:1905954,positive regulation of lipid localization,-0.128,0.08667806321750032,0.9999,True
+GO:0007588,excretion,-0.128,0.08736227539343605,0.9999,False
+GO:0046622,positive regulation of organ growth,-0.128,0.08773771058503912,0.9999,False
+GO:0001732,formation of cytoplasmic translation initiation complex,-0.127,0.0884821204651395,0.9999,False

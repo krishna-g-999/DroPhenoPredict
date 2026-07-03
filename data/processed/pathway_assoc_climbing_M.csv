@@ -1,0 +1,61 @@
+GO_id,pathway,r,p,fdr,is_metabolic
+GO:0017004,cytochrome complex assembly,0.237,0.0013431912517615368,0.7733,False
+GO:0008535,respiratory chain complex IV assembly,0.237,0.001350483981641751,0.7733,False
+GO:0033617,mitochondrial respiratory chain complex IV assembly,0.235,0.0014834692681698666,0.7733,True
+GO:1902775,mitochondrial large ribosomal subunit assembly,0.23,0.0018835073351602448,0.7733,True
+GO:0015986,proton motive force-driven ATP synthesis,0.226,0.0022459769658883,0.7733,True
+GO:0006754,ATP biosynthetic process,0.226,0.002245976965888305,0.7733,True
+GO:0042776,proton motive force-driven mitochondrial ATP synthesis,0.222,0.002800583303809126,0.7733,True
+GO:0009145,purine nucleoside triphosphate biosynthetic process,0.221,0.002878135599974252,0.7733,False
+GO:0009206,purine ribonucleoside triphosphate biosynthetic process,0.221,0.002878135599974252,0.7733,False
+GO:0061668,mitochondrial ribosome assembly,0.22,0.0029661518623270303,0.7733,True
+GO:0032543,mitochondrial translation,0.216,0.00364725492480812,0.8348,True
+GO:0140053,mitochondrial gene expression,0.206,0.005497985673821174,0.8348,True
+GO:0009201,ribonucleoside triphosphate biosynthetic process,0.205,0.005700825555088647,0.8348,False
+GO:0009142,nucleoside triphosphate biosynthetic process,0.205,0.0057468838703688355,0.8348,False
+GO:0033108,mitochondrial respiratory chain complex assembly,0.203,0.006341963726636232,0.8348,True
+GO:0006122,"mitochondrial electron transport, ubiquinol to cytochrome c",0.203,0.006369216544767342,0.8348,True
+GO:0006123,"mitochondrial electron transport, cytochrome c to oxygen",0.201,0.006794739307175549,0.8348,True
+GO:0006119,oxidative phosphorylation,0.2,0.007223508950267603,0.8348,False
+GO:0022900,electron transport chain,0.199,0.007440171645086542,0.8348,False
+GO:0046885,regulation of hormone biosynthetic process,0.199,0.007532040214558643,0.8348,False
+GO:0009144,purine nucleoside triphosphate metabolic process,0.196,0.008321449750758764,0.8348,True
+GO:0042773,ATP synthesis coupled electron transport,0.196,0.00839787564789047,0.8348,True
+GO:0022904,respiratory electron transport chain,0.196,0.00839787564789047,0.8348,False
+GO:0042775,mitochondrial ATP synthesis coupled electron transport,0.196,0.00839787564789047,0.8348,True
+GO:0019646,aerobic electron transport chain,0.196,0.008440014223371027,0.8348,False
+GO:0046034,ATP metabolic process,0.195,0.008544935649886332,0.8348,True
+GO:0009060,aerobic respiration,0.195,0.008674264658050225,0.8348,False
+GO:0045333,cellular respiration,0.194,0.008994577499396451,0.8348,False
+GO:0009205,purine ribonucleoside triphosphate metabolic process,0.193,0.009286418338534644,0.8348,True
+GO:1902600,proton transmembrane transport,0.189,0.011149972993141724,0.8675,False
+GO:1901875,positive regulation of post-translational protein modification,0.188,0.01128266053077462,0.8675,False
+GO:1903322,positive regulation of protein modification by small protein conjugation or removal,0.188,0.01128266053077462,0.8675,False
+GO:0070071,proton-transporting two-sector ATPase complex assembly,0.188,0.0115150367427794,0.8675,True
+GO:0009141,nucleoside triphosphate metabolic process,0.185,0.01283293985021647,0.8675,True
+GO:0006120,"mitochondrial electron transport, NADH to ubiquinone",0.183,0.014024889250850903,0.8675,True
+GO:0000027,ribosomal large subunit assembly,0.182,0.014615178918342646,0.8675,False
+GO:0015980,energy derivation by oxidation of organic compounds,0.179,0.016116458809276035,0.8675,True
+GO:0006091,generation of precursor metabolites and energy,0.179,0.016153212872104444,0.8675,True
+GO:0010257,NADH dehydrogenase complex assembly,0.179,0.016408175664885276,0.8675,False
+GO:0032981,mitochondrial respiratory chain complex I assembly,0.179,0.016408175664885276,0.8675,True
+GO:0070900,mitochondrial tRNA modification,0.177,0.017743526342216775,0.8675,True
+GO:0051180,vitamin transport,0.174,0.019598782281080238,0.8675,False
+GO:0036260,RNA capping,0.174,0.019610530793914203,0.8675,False
+GO:0046890,regulation of lipid biosynthetic process,0.173,0.020505397580130747,0.8675,True
+GO:0010968,regulation of microtubule nucleation,0.17,0.022164524524579236,0.8675,False
+GO:0007005,mitochondrion organization,0.168,0.023905950745735313,0.8675,True
+GO:0031398,positive regulation of protein ubiquitination,0.168,0.024083788786269905,0.8675,False
+GO:0006108,malate metabolic process,0.168,0.02419243645693422,0.8675,True
+GO:0006099,tricarboxylic acid cycle,0.165,0.02654463544571669,0.8675,False
+GO:0045292,"mRNA cis splicing, via spliceosome",0.165,0.026556385145857786,0.8675,False
+GO:0045500,sevenless signaling pathway,0.165,0.02672388016112766,0.8675,False
+GO:0031401,positive regulation of protein modification process,0.164,0.027605186983780793,0.8675,False
+GO:0006121,"mitochondrial electron transport, succinate to ubiquinone",0.164,0.02807986196632969,0.8675,True
+GO:0010586,miRNA metabolic process,0.163,0.028739293526343232,0.8675,True
+GO:0031340,positive regulation of vesicle fusion,0.163,0.02911895502866514,0.8675,False
+GO:1900864,mitochondrial RNA modification,0.162,0.02944644972833524,0.8675,True
+GO:0042407,cristae formation,0.161,0.030634237611712585,0.8675,False
+GO:0000387,spliceosomal snRNP assembly,0.161,0.03107068819190043,0.8675,False
+GO:0090646,mitochondrial tRNA processing,0.16,0.03140509687053617,0.8675,True
+GO:0009311,oligosaccharide metabolic process,0.16,0.0319802209095112,0.8675,True

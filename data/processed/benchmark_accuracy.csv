@@ -1,0 +1,9 @@
+trait_sex,trait,sex,n,geno_GBLUP,expression,combined,multimodal_adaptive,deployed,predictable,Ober2012_geno,Morgante2020_exp,Morgante2020_geno
+climbing_F,climbing,F,180,0.009,0.166,0.153,0.134,exp,True,,,
+climbing_M,climbing,M,180,0.103,0.293,0.261,0.273,exp,True,,,
+startle_F,startle,F,197,0.159,-0.031,0.138,0.149,geno,True,0.23,,
+startle_M,startle,M,197,0.125,-0.016,0.102,0.102,geno,False,0.23,,
+starvation_F,starvation,F,192,0.227,0.099,0.217,0.159,geno,True,0.239,0.28,0.07
+starvation_M,starvation,M,192,0.268,0.376,0.361,0.343,exp,True,0.239,0.38,0.15
+sleep_F,sleep,F,162,0.252,-0.086,0.222,0.249,geno,True,,,
+sleep_M,sleep,M,162,0.105,-0.162,0.112,0.093,geno,False,,,

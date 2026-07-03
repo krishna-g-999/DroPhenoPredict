@@ -1,0 +1,13 @@
+# Deployment requirements for app.py ONLY (Streamlit Community Cloud reads
+# this file at the repo root). The full analysis/research stack (xgboost,
+# lightgbm, shap, gseapy, etc.) lives in requirements-dev.txt — deliberately
+# NOT installed here, to keep cloud builds fast and reduce failure surface.
+# Verified: app.py's import chain (predictor -> genotypes, gblup, dgrpool)
+# needs exactly these packages, nothing more.
+streamlit>=1.37
+pandas>=2.2
+numpy>=1.26
+scipy>=1.13
+plotly>=5.0
+bed-reader>=1.0
+requests>=2.32

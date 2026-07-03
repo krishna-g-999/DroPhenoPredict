@@ -1,0 +1,6 @@
+excluded,n_remaining_models,genes_ge3,null_mean,perm_p
+Abeta42,4,23,0.04,0.002
+Tau,4,20,0.02,0.002
+aSyn,4,17,0.03,0.002
+HTT128Q,4,13,0.02,0.002
+HTT200Q,4,17,0.0,0.002

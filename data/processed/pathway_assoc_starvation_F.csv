@@ -1,0 +1,61 @@
+GO_id,pathway,r,p,fdr,is_metabolic
+GO:0005981,regulation of glycogen catabolic process,0.231,0.0012560954989324293,0.9028,True
+GO:0070875,positive regulation of glycogen metabolic process,0.228,0.0014603974426519476,0.9028,True
+GO:0045434,"negative regulation of female receptivity, post-mating",0.222,0.0019445202658003528,0.9028,False
+GO:0043255,regulation of carbohydrate biosynthetic process,0.215,0.0027102172964564688,0.9028,True
+GO:0032881,regulation of polysaccharide metabolic process,0.215,0.0027552958569761455,0.9028,True
+GO:0070873,regulation of glycogen metabolic process,0.215,0.0027552958569761455,0.9028,True
+GO:0007621,negative regulation of female receptivity,0.209,0.003551823119327146,0.9028,False
+GO:0010907,positive regulation of glucose metabolic process,0.198,0.005978698547694367,0.9028,True
+GO:0035094,response to nicotine,0.192,0.007537963757752033,0.9028,False
+GO:0010906,regulation of glucose metabolic process,0.189,0.008754441232053942,0.9028,True
+GO:0006013,mannose metabolic process,-0.183,0.011095535899917321,0.9028,True
+GO:0007584,response to nutrient,0.179,0.012774713237653302,0.9028,False
+GO:0061327,anterior Malpighian tubule development,0.179,0.01311887630546976,0.9028,False
+GO:0050975,sensory perception of touch,0.178,0.013557280072010444,0.9028,False
+GO:0034389,lipid droplet organization,0.177,0.01430621507305552,0.9028,True
+GO:0006862,nucleotide transport,-0.17,0.018277737104503828,0.9028,False
+GO:0043470,regulation of carbohydrate catabolic process,0.169,0.018943891837741592,0.9028,True
+GO:0022409,positive regulation of cell-cell adhesion,0.168,0.020002638306444148,0.9028,False
+GO:0006109,regulation of carbohydrate metabolic process,0.165,0.02234816560172463,0.9028,True
+GO:0045785,positive regulation of cell adhesion,0.159,0.02728640921694668,0.9028,False
+GO:0015865,purine nucleotide transport,-0.159,0.027311297998560153,0.9028,False
+GO:0008052,sensory organ boundary specification,-0.159,0.0277826447199691,0.9028,False
+GO:0071711,basement membrane organization,0.158,0.02817050481817377,0.9028,False
+GO:0045913,positive regulation of carbohydrate metabolic process,0.158,0.02843033821708964,0.9028,True
+GO:0046008,"regulation of female receptivity, post-mating",0.157,0.02986770450345309,0.9028,False
+GO:0015718,monocarboxylic acid transport,0.155,0.03200103140652783,0.9028,False
+GO:0015908,fatty acid transport,0.152,0.034806893584747776,0.9028,True
+GO:0072530,purine-containing compound transmembrane transport,-0.151,0.03627841653264275,0.9028,False
+GO:1901679,nucleotide transmembrane transport,-0.148,0.04045920091702354,0.9028,False
+GO:0046068,cGMP metabolic process,0.148,0.0404817971667208,0.9028,True
+GO:0006869,lipid transport,0.147,0.04149369884847412,0.9028,True
+GO:0010876,lipid localization,0.147,0.04149369884847412,0.9028,True
+GO:0015909,long-chain fatty acid transport,0.144,0.046442970537798285,0.9028,True
+GO:0007586,digestion,0.142,0.04874858008383644,0.9028,False
+GO:0030162,regulation of proteolysis,-0.141,0.05153262153303741,0.9028,False
+GO:0007141,male meiosis I,-0.14,0.05213234645708147,0.9028,False
+GO:0035235,ionotropic glutamate receptor signaling pathway,0.14,0.05234609321839026,0.9028,False
+GO:1990806,ligand-gated ion channel signaling pathway,0.14,0.05234609321839026,0.9028,False
+GO:0016360,sensory organ precursor cell fate determination,-0.139,0.05371192928062332,0.9028,False
+GO:0060582,cell fate determination involved in pattern specification,-0.139,0.05371192928062332,0.9028,False
+GO:0060180,female mating behavior,0.139,0.05446372086358449,0.9028,False
+GO:0007215,glutamate receptor signaling pathway,0.138,0.05702071531387055,0.9028,False
+GO:0006122,"mitochondrial electron transport, ubiquinol to cytochrome c",0.136,0.05905500951818883,0.9028,True
+GO:0022600,digestive system process,0.136,0.05912341564132739,0.9028,False
+GO:0032387,negative regulation of intracellular transport,-0.136,0.05972792459831203,0.9028,False
+GO:0045924,regulation of female receptivity,0.135,0.061074909705271005,0.9028,False
+GO:0051224,negative regulation of protein transport,-0.135,0.06162297233711326,0.9028,False
+GO:1903828,negative regulation of protein localization,-0.135,0.06162297233711326,0.9028,False
+GO:1904950,negative regulation of establishment of protein localization,-0.135,0.06162297233711326,0.9028,False
+GO:0007638,mechanosensory behavior,0.135,0.06227504223129458,0.9028,False
+GO:0018993,somatic sex determination,-0.135,0.06228472701480274,0.9028,False
+GO:0010160,formation of animal organ boundary,-0.132,0.06767936791240853,0.9028,False
+GO:0042745,circadian sleep/wake cycle,0.132,0.06835251274661905,0.9028,False
+GO:0050884,neuromuscular process controlling posture,0.13,0.07316866091948757,0.9028,False
+GO:0016925,protein sumoylation,-0.13,0.07340758232244993,0.9028,False
+GO:0008407,chaeta morphogenesis,-0.129,0.07364577114904765,0.9028,False
+GO:0006986,response to unfolded protein,-0.128,0.0764509586892967,0.9028,False
+GO:0120009,intermembrane lipid transfer,0.128,0.07744840235379123,0.9028,True
+GO:0120316,sperm flagellum assembly,-0.128,0.07757176230992115,0.9028,False
+GO:0097194,execution phase of apoptosis,-0.127,0.0801716200544665,0.9028,False

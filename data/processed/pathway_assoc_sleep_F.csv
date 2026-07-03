@@ -1,0 +1,61 @@
+GO_id,pathway,r,p,fdr,is_metabolic
+GO:0001678,intracellular glucose homeostasis,-0.249,0.001422525184926908,0.9978,True
+GO:0006000,fructose metabolic process,-0.228,0.003461476520609493,0.9978,True
+GO:0019730,antimicrobial humoral response,-0.227,0.003722773471278163,0.9978,False
+GO:0031000,response to caffeine,-0.224,0.00414306518765733,0.9978,False
+GO:0009137,purine nucleoside diphosphate catabolic process,-0.209,0.007736362022811841,0.9978,False
+GO:0009134,nucleoside diphosphate catabolic process,-0.209,0.007736362022811841,0.9978,False
+GO:0009181,purine ribonucleoside diphosphate catabolic process,-0.209,0.007736362022811841,0.9978,False
+GO:0009191,ribonucleoside diphosphate catabolic process,-0.209,0.007736362022811841,0.9978,False
+GO:0006096,glycolytic process,-0.209,0.007736362022811841,0.9978,True
+GO:0046032,ADP catabolic process,-0.209,0.007736362022811841,0.9978,False
+GO:0019364,pyridine nucleotide catabolic process,-0.208,0.007886209024794007,0.9978,False
+GO:0072526,pyridine-containing compound catabolic process,-0.208,0.007886209024794007,0.9978,False
+GO:0071322,cellular response to carbohydrate stimulus,-0.207,0.008192579595004464,0.9978,True
+GO:0090659,walking behavior,0.206,0.00839346604745355,0.9978,False
+GO:0006007,glucose catabolic process,-0.204,0.009333563621452535,0.9978,True
+GO:0061621,canonical glycolysis,-0.204,0.009333563621452535,0.9978,True
+GO:0006959,humoral immune response,-0.203,0.009495601542402662,0.9978,False
+GO:0007305,vitelline membrane formation involved in chorion-containing eggshell formation,0.203,0.009695798818532001,0.9978,False
+GO:0035803,egg coat formation,0.203,0.009695798818532001,0.9978,False
+GO:0030704,vitelline membrane formation,0.203,0.009695798818532001,0.9978,False
+GO:0046031,ADP metabolic process,-0.201,0.010246496899525387,0.9978,True
+GO:0009135,purine nucleoside diphosphate metabolic process,-0.2,0.010633746326986743,0.9978,True
+GO:0009179,purine ribonucleoside diphosphate metabolic process,-0.2,0.010633746326986743,0.9978,True
+GO:0007432,salivary gland boundary specification,-0.2,0.010857279586841236,0.9978,False
+GO:0009620,response to fungus,-0.199,0.011108441758715799,0.9978,False
+GO:0048167,regulation of synaptic plasticity,-0.192,0.014172418085430344,0.9978,False
+GO:0035269,protein O-linked glycosylation via mannose,-0.189,0.015936704446123478,0.9978,True
+GO:0007628,adult walking behavior,0.189,0.01615789639436197,0.9978,False
+GO:0009185,ribonucleoside diphosphate metabolic process,-0.188,0.01687027335159667,0.9978,True
+GO:0034284,response to monosaccharide,-0.187,0.017418020970657658,0.9978,False
+GO:0050832,defense response to fungus,-0.187,0.017431475308259208,0.9978,False
+GO:0019319,hexose biosynthetic process,-0.185,0.01864892740427305,0.9978,False
+GO:0046364,monosaccharide biosynthetic process,-0.185,0.01864892740427305,0.9978,False
+GO:0014074,response to purine-containing compound,-0.185,0.018682121008502476,0.9978,False
+GO:0019731,antibacterial humoral response,-0.184,0.019228714996881335,0.9978,False
+GO:0035159,"regulation of tube length, open tracheal system",-0.182,0.020209657264712366,0.9978,False
+GO:0009132,nucleoside diphosphate metabolic process,-0.181,0.02111589844684186,0.9978,True
+GO:0085029,extracellular matrix assembly,0.18,0.02158334934343272,0.9978,False
+GO:0008039,synaptic target recognition,-0.18,0.021727447090182848,0.9978,False
+GO:0007320,insemination,-0.172,0.02857516958669231,0.9978,False
+GO:0044706,multi-multicellular organism process,-0.172,0.02857516958669231,0.9978,False
+GO:0006090,pyruvate metabolic process,-0.172,0.028600671106539195,0.9978,True
+GO:0007620,copulation,-0.171,0.02962787307309341,0.9978,False
+GO:0042593,glucose homeostasis,-0.17,0.03015382392917921,0.9978,True
+GO:0061620,glycolytic process through glucose-6-phosphate,-0.17,0.030851387337879902,0.9978,True
+GO:0061615,glycolytic process through fructose-6-phosphate,-0.17,0.030851387337879902,0.9978,True
+GO:0015909,long-chain fatty acid transport,0.169,0.03168074223796081,0.9978,True
+GO:0044703,multi-organism reproductive process,-0.167,0.03317800966399405,0.9978,False
+GO:0002791,regulation of peptide secretion,-0.167,0.03338834858598187,0.9978,False
+GO:0090276,regulation of peptide hormone secretion,-0.167,0.03338834858598187,0.9978,False
+GO:0090087,regulation of peptide transport,-0.167,0.03338834858598187,0.9978,False
+GO:0006195,purine nucleotide catabolic process,-0.164,0.03745027146740929,0.9978,False
+GO:0031340,positive regulation of vesicle fusion,-0.163,0.03785656971071032,0.9978,False
+GO:0009261,ribonucleotide catabolic process,-0.162,0.039702547359772154,0.9978,False
+GO:0009154,purine ribonucleotide catabolic process,-0.162,0.039702547359772154,0.9978,False
+GO:1900150,regulation of defense response to fungus,-0.16,0.042028728786832815,0.9978,False
+GO:0034219,carbohydrate transmembrane transport,-0.16,0.04235916446951415,0.9978,True
+GO:0009743,response to carbohydrate,-0.16,0.042395251862751074,0.9978,True
+GO:0016079,synaptic vesicle exocytosis,-0.16,0.042512163914829044,0.9978,False
+GO:0140546,defense response to symbiont,-0.159,0.04306356538095367,0.9978,False

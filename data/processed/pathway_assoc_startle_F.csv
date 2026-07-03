@@ -1,0 +1,61 @@
+GO_id,pathway,r,p,fdr,is_metabolic
+GO:0044331,cell-cell adhesion mediated by cadherin,-0.264,0.00017544325614484625,0.1224,False
+GO:0035210,prepupal development,-0.257,0.00026793712878665386,0.1224,False
+GO:0008366,axon ensheathment,-0.254,0.0003147298520674213,0.1224,False
+GO:0030335,positive regulation of cell migration,-0.254,0.0003164047392402937,0.1224,False
+GO:0008594,photoreceptor cell morphogenesis,-0.253,0.00033230935551379476,0.1224,False
+GO:0007272,ensheathment of neurons,-0.253,0.00033713049305027676,0.1224,False
+GO:0035073,pupariation,-0.252,0.0003514457027791794,0.1224,False
+GO:2000147,positive regulation of cell motility,-0.249,0.00042351388594971933,0.1224,False
+GO:0040017,positive regulation of locomotion,-0.247,0.00046380552802571676,0.1224,False
+GO:0035148,tube formation,-0.242,0.0006112561881773154,0.1224,False
+GO:0042063,gliogenesis,-0.241,0.0006590406369456497,0.1224,False
+GO:0048568,embryonic organ development,-0.24,0.0006686719719416848,0.1224,False
+GO:0045176,apical protein localization,-0.239,0.0007043058627126506,0.1224,False
+GO:0030334,regulation of cell migration,-0.238,0.0007493063075825769,0.1224,False
+GO:0003007,heart morphogenesis,-0.237,0.0007882829396950803,0.1224,False
+GO:0007422,peripheral nervous system development,-0.236,0.0008457986457137069,0.1224,False
+GO:2000145,regulation of cell motility,-0.234,0.0009156562838719354,0.1224,False
+GO:0014019,neuroblast development,-0.233,0.0009996460933260035,0.1224,False
+GO:0031099,regeneration,-0.232,0.0010378824018552528,0.1224,False
+GO:0045571,negative regulation of imaginal disc growth,-0.23,0.0011311104096775153,0.1224,False
+GO:0035239,tube morphogenesis,-0.23,0.0011395682671822484,0.1224,False
+GO:0035152,"regulation of tube architecture, open tracheal system",-0.23,0.0011758692792133256,0.1224,False
+GO:0014016,neuroblast differentiation,-0.228,0.001289205958329979,0.1224,False
+GO:0035295,tube development,-0.227,0.0013399639682487655,0.1224,False
+GO:0048871,multicellular organismal-level homeostasis,-0.226,0.0013770912041822098,0.1224,False
+GO:0035149,"lumen formation, open tracheal system",-0.223,0.001599818455291108,0.1224,False
+GO:0060857,establishment of glial blood-brain barrier,-0.223,0.0016060743231465625,0.1224,False
+GO:1903688,positive regulation of border follicle cell migration,-0.222,0.0017590881280216439,0.1224,False
+GO:0010634,positive regulation of epithelial cell migration,-0.221,0.0017770074720187105,0.1224,False
+GO:0035218,leg disc development,-0.22,0.0018483257116047621,0.1224,False
+GO:0035050,embryonic heart tube development,-0.22,0.0019130206014086571,0.1224,False
+GO:0007455,eye-antennal disc morphogenesis,-0.219,0.001991336261285442,0.1224,False
+GO:0040034,"regulation of development, heterochronic",-0.219,0.002012148230922714,0.1224,False
+GO:0010632,regulation of epithelial cell migration,-0.219,0.0020177473611812254,0.1224,False
+GO:0002385,mucosal immune response,-0.218,0.0020462260605097074,0.1224,False
+GO:0002251,organ or tissue specific immune response,-0.218,0.0020462260605097074,0.1224,False
+GO:0001894,tissue homeostasis,-0.218,0.0020687770201913208,0.1224,False
+GO:0097305,response to alcohol,-0.218,0.0021151392906766076,0.1224,False
+GO:0030723,ovarian fusome organization,-0.217,0.002197082630948302,0.1224,False
+GO:0035272,exocrine system development,-0.217,0.0022226436981956305,0.1224,False
+GO:0007431,salivary gland development,-0.217,0.0022226436981956305,0.1224,False
+GO:1904748,regulation of apoptotic process involved in development,-0.217,0.0022428348990680518,0.1224,False
+GO:0045217,cell-cell junction maintenance,-0.216,0.002275891257792495,0.1224,False
+GO:0040012,regulation of locomotion,-0.216,0.0022897345182026374,0.1224,False
+GO:0043279,response to alkaloid,-0.216,0.002350009367565542,0.1224,False
+GO:0036314,response to sterol,-0.215,0.002416975084245481,0.1224,False
+GO:0035075,response to ecdysone,-0.215,0.002416975084245481,0.1224,False
+GO:1901186,positive regulation of ERBB signaling pathway,-0.215,0.002443740010140362,0.1224,False
+GO:0045742,positive regulation of epidermal growth factor receptor signaling pathway,-0.215,0.002443740010140362,0.1224,False
+GO:0048732,gland development,-0.214,0.0025017157380350977,0.1224,False
+GO:0007304,chorion-containing eggshell formation,-0.214,0.0025035535889747396,0.1224,False
+GO:0060560,developmental growth involved in morphogenesis,-0.214,0.002520248110678088,0.1224,False
+GO:0048260,positive regulation of receptor-mediated endocytosis,-0.214,0.0025300528275553065,0.1224,False
+GO:0007400,neuroblast fate determination,-0.214,0.0025727402501223924,0.1224,False
+GO:1903684,regulation of border follicle cell migration,-0.214,0.0025828990866643515,0.1224,False
+GO:0030703,eggshell formation,-0.213,0.002657479798385238,0.123,False
+GO:0061525,hindgut development,-0.213,0.0026904475659813585,0.123,False
+GO:0050848,regulation of calcium-mediated signaling,-0.212,0.002837742780962709,0.124,False
+GO:0060562,epithelial tube morphogenesis,-0.212,0.002843123375849936,0.124,False
+GO:0048598,embryonic morphogenesis,-0.211,0.002891417786196015,0.124,False

@@ -1,0 +1,49 @@
+# Data — raw downloads and large intermediate artifacts are not committed.
+# Exceptions below are the small (~2.4MB total), verified files app.py needs
+# to run on Streamlit Community Cloud (see docs/DEPLOYMENT.md).
+#
+# IMPORTANT: several raw files are DUA-gated (Synapse: BCM-DMAS, proteomics) —
+# these must NEVER be published to a public repo regardless of size, since
+# redistribution would likely violate the data-use terms agreed to when
+# downloading them. The blanket rules below cover data/raw/ (their proper
+# home) AND loose files dropped directly in data/ (their initial download
+# landing spot before being sorted) — both must stay excluded.
+data/*.csv
+data/*.zip
+data/*.txt
+data/*.xlsx
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+!data/processed/grm.npz
+!data/processed/benchmark_accuracy.csv
+!data/processed/gsea_convergent_pathways.csv
+!data/processed/convergence_leave_one_out.csv
+!data/processed/shared_biology_convergent_genes.csv
+!data/processed/gwas_adj_genes_*.csv
+!data/processed/qtt_top_*.csv
+!data/processed/pathway_assoc_*.csv
+
+# Models — exceptions are the small v1.0/v1.1 artifacts the deployed app needs.
+models/trained/*.pkl
+!models/trained/drophenopredict_v1.0.json
+!models/trained/drophenopredict_v1.0_targets.npz
+!models/trained/drophenopredict_v1.1.json
+!models/trained/drophenopredict_v1.1_kernels.npz
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local tooling config (not project content)
+.claude/
