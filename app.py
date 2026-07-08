@@ -20,6 +20,7 @@ import plotly.graph_objects as go
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 from drophenopredict.predictor import DroPhenoPredictor  # noqa: E402
+from drophenopredict import drophenix_export as dpx  # noqa: E402
 
 PROC = Path("data/processed")
 st.set_page_config(page_title="DroPhenoPredict", layout="wide", page_icon="🪰",
@@ -113,6 +114,7 @@ st.sidebar.markdown('<p class="dpp-side-title" style="font-size:1.3rem;margin-bo
 st.sidebar.caption(f"{man['version']} · multi-modal DGRP phenotype prediction")
 page = st.sidebar.radio("Page", ["Home", "Predict", "Benchmark & predictability",
                                  "Genetic architecture", "Disease convergence (v2)",
+                                 "Validate with DroPhenix",
                                  "About / methods"], label_visibility="collapsed")
 st.sidebar.markdown("---")
 st.sidebar.markdown(f"**{len(panel_lines)}** DGRP lines in panel &nbsp;·&nbsp; "
@@ -133,7 +135,7 @@ if page == "Home":
          "chosen per trait by nested cross-validation, with honest uncertainty and an "
          "explicit predictability flag on every prediction.")
 
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.markdown(feature_card(
             "Predict", "Look up any of the 205 DGRP lines and get a full trait profile with "
@@ -151,6 +153,12 @@ if page == "Home":
             "Disease convergence (v2)", "A separate, independently-verified resource: molecular "
             "convergence across 5 real AD/PD/HD Drosophila models on the same matched panel.",
             badge("Molecular only", "warn") + badge("Not a behaviour predictor", "off")),
+            unsafe_allow_html=True)
+    with c4:
+        st.markdown(feature_card(
+            "Validate with DroPhenix", "Export a ready-to-fill DroPhenix experiment template for "
+            "a predicted line, so you can compare the real, measured result against our prediction.",
+            badge("climbing", "info") + badge("sleep", "info") + badge("no shared code", "off")),
             unsafe_allow_html=True)
 
     section_hdr("What this tool is — and isn't")
@@ -332,6 +340,62 @@ elif page == "Disease convergence (v2)":
               "behavioural values (climbing/turning/stumbling) for this panel exist only in the "
               "paper's Figure 1B, not as downloadable data — so this analysis does not, and cannot "
               "yet, predict climbing/lifespan for these disease models.")
+
+# ---------------------------------------------------- Validate with DroPhenix -
+elif page == "Validate with DroPhenix":
+    hero("Validate a prediction with DroPhenix",
+         "DroPhenoPredict predicts; it doesn't measure. This page closes that loop: export a "
+         "ready-to-fill experiment template for a predicted line, run the real assay, analyze it "
+         "in DroPhenix, and compare the measured result against our predicted value and interval.")
+
+    st.markdown(feature_card("What this is — and isn't",
+        "DroPhenix (<a href='https://github.com/krishna-g-999/DroPhenix'>github.com/krishna-g-999/"
+        "DroPhenix</a>, GPL-3.0) analyzes real experimental assay data on any genotype. No DroPhenix "
+        "code is used here — only two column schemas read from its public source, reproduced below "
+        "as plain lists. This keeps the two tools independent (no license entanglement) while making "
+        "their data directly compatible.",
+        badge("verified schema, not guessed", "ok") + badge("no shared code", "off")),
+        unsafe_allow_html=True)
+
+    trait_family = st.selectbox("Trait to validate", dpx.SUPPORTED_TRAIT_FAMILIES,
+        help="Only traits with a verified, schema-compatible DroPhenix assay module are offered. "
+             "startle and starvation have no matching DroPhenix assay we could verify, so no "
+             "template is generated for them (rather than guessing a schema).")
+    col1, col2 = st.columns(2)
+    with col1:
+        line = st.selectbox("DGRP line", panel_lines,
+                            index=panel_lines.index("line_357") if "line_357" in panel_lines else 0,
+                            key="dpx_line")
+    with col2:
+        sex = st.radio("Sex", ["F", "M"], horizontal=True, key="dpx_sex")
+
+    trait_key = f"{trait_family}_{sex}"
+    meta = man["traits"].get(trait_key)
+    if meta is None or line not in meta["lines"]:
+        st.error(f"No prediction available for {trait_key} / {line} in this model.")
+    else:
+        r = pred.predict(line, trait_key)
+        ext_id = dpx.external_line_id(line)
+        predictable_note = "yes" if r["predictable"] else "no — read as a prior only"
+        st.markdown(feature_card(f"DroPhenoPredict's prediction for {ext_id} ({trait_key})",
+            f"Predicted: <b>{r['predicted']} {r['unit']}</b> &nbsp;·&nbsp; 90% interval: "
+            f"<b>[{r['pi90_lower']}, {r['pi90_upper']}]</b> &nbsp;·&nbsp; modality: "
+            f"<b>{r['modality']}</b> &nbsp;·&nbsp; predictable: <b>{predictable_note}</b>. "
+            "This value is shown for reference only — it is NOT written into the exported file, "
+            "which contains only blank cells for you to fill in after the real assay.",
+            badge("predicted, not measured", "warn")), unsafe_allow_html=True)
+
+        template = dpx.template_for_trait_family(trait_family, line, sex)
+        section_hdr(f"DroPhenix {'climbing' if trait_family == 'climbing' else 'DAMS activity/sleep'} "
+                    "template (blank, ready to fill)")
+        st.dataframe(template, use_container_width=True, hide_index=True)
+        st.download_button(
+            f"⬇ Download {ext_id}_{trait_key}_drophenix_template.csv",
+            data=template.to_csv(index=False).encode("utf-8"),
+            file_name=f"{ext_id}_{trait_key}_drophenix_template.csv", mime="text/csv")
+        st.caption("Replicate/timepoint/fly counts are a common-default skeleton — edit rows to "
+                   "match your actual protocol before running the real assay. Only the measured "
+                   "columns (`Count` / `Activity`) are left blank; nothing in this file is simulated.")
 
 # ------------------------------------------------------------- About ----------
 else:

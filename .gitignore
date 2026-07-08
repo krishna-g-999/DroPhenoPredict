@@ -12,6 +12,9 @@ data/*.csv
 data/*.zip
 data/*.txt
 data/*.xlsx
+data/*.doc
+data/*.docx
+data/from paper/
 data/raw/*
 data/interim/*
 data/processed/*

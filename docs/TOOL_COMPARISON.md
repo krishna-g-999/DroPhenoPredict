@@ -18,6 +18,7 @@ documented capabilities (checked 2026-06-29).
 | **Calibrated prediction intervals** | ✗ | ✗ | ✗ | ✗ | **✓ (conformal, coverage-verified)** |
 | **Per-trait predictability flag** | ✗ | ✗ | ✗ | ✗ | **✓ (permutation test)** |
 | Programmatic API / reusable model | partial | API (data) | ✗ | ✗ | **✓ (`DroPhenoPredictor`)** |
+| **Prediction → real-experiment validation export** | ✗ | ✗ | ✗ | ✗ | **✓ (DroPhenix bridge, 2 trait families)** |
 | Status | offline (2026) | live | — | — | local, reproducible |
 
 ## What is genuinely new here
@@ -27,6 +28,10 @@ documented capabilities (checked 2026-06-29).
 2. **Calibrated, coverage-verified uncertainty + an explicit predictability flag** — no prior DGRP
    prediction work ships honest intervals or tells the user when a trait is *not* predictable.
 3. **A packaged, reusable resource** (model artifact + API), not a one-off analysis.
+4. **A predicted-vs-measured validation path** (`docs/DROPHENIX_BRIDGE.md`) — exports a
+   schema-verified experiment template (climbing, sleep) for the companion tool DroPhenix, closing
+   the loop from prediction to a real, independently-analyzed measurement. No other DGRP resource in
+   this comparison offers a route from a prediction to an actual validating experiment.
 
 ## What is NOT claimed (editor's guard)
 - We do not beat the information-theoretic ceiling; accuracy is modest (adaptive r ≈ 0.09–0.34) and
