@@ -96,6 +96,40 @@ def get_predictor():
     return DroPhenoPredictor("v1.1")
 
 
+@st.cache_resource
+def get_drug_predictor():
+    p = Path("models/trained/drophenopredict_drug-v1.0.json")
+    return DroPhenoPredictor("drug-v1.0") if p.exists() else None
+
+
+DRUG_LABELS = {
+    "methylphenidate_food_intake_effect_M": "Methylphenidate: change in food intake vs sucrose (♂)",
+    "parathion_survival_48h_B": "Parathion: survival at 48 h",
+    "paraquat_resistance_F": "Paraquat: resistance (♀)",
+    "alcohol_tolerance_M": "Ethanol: tolerance (♂)",
+    "ethanol_dev_viability_B": "Ethanol: developmental viability (%)",
+    "lead_viability_B": "Lead: developmental viability",
+    "methylphenidate_food_intake_M": "Methylphenidate: food intake (♂)",
+    "malathion_12h_mortality_M": "Malathion: 12 h mortality (♂)",
+    "octanoic_acid_survival_M": "Octanoic acid (noni toxin): survival (♂)",
+    "methylphenidate_activity_M": "Methylphenidate: locomotor activity (♂)",
+    "alcohol_tolerance_F": "Ethanol: tolerance (♀)",
+    "malathion_12h_mortality_F": "Malathion: 12 h mortality (♀)",
+}
+
+
+@st.cache_data
+def drug_ranking(trait: str) -> pd.DataFrame:
+    dp = get_drug_predictor()
+    rows = []
+    for line in dp.models[trait]["lines"]:
+        r = dp.predict(line, trait)
+        rows.append({"line": "DGRP_" + line.split("_")[1].zfill(3), "predicted": r["predicted"],
+                     "PI90 low": r["pi90_lower"], "PI90 high": r["pi90_upper"],
+                     "observed": r.get("observed")})
+    return pd.DataFrame(rows).sort_values("predicted", ascending=False).reset_index(drop=True)
+
+
 @st.cache_data
 def load_csv(name):
     p = PROC / name
@@ -112,7 +146,7 @@ n_predictable = sum(1 for m in man["traits"].values() if m["predictable"])
 st.sidebar.markdown('<p class="dpp-side-title" style="font-size:1.3rem;margin-bottom:0;">🪰 DroPhenoPredict</p>',
                      unsafe_allow_html=True)
 st.sidebar.caption(f"{man['version']} · multi-modal DGRP phenotype prediction")
-page = st.sidebar.radio("Page", ["Home", "Predict", "Benchmark & predictability",
+page = st.sidebar.radio("Page", ["Home", "Predict", "Drug responses", "Benchmark & predictability",
                                  "Genetic architecture", "Disease convergence (v2)",
                                  "Validate with DroPhenix",
                                  "About / methods"], label_visibility="collapsed")
@@ -168,12 +202,14 @@ if page == "Home":
             "Validated core", "Genotype (GBLUP) and RNA-seq expression prediction for climbing, "
             "startle, starvation and sleep, with calibrated 90% intervals (coverage-verified "
             "0.90–0.92), a permutation-based predictability flag, and reproduction of 3 literature "
-            "benchmarks. Engine checked on known-truth simulations (41 automated tests)."),
+            "benchmarks. Engine checked on known-truth simulations (68 automated tests)."),
             unsafe_allow_html=True)
     with c2:
         st.markdown(feature_card(
             "Explicitly out of scope", "Novel/unrelated genotypes, transgenic disease models, and "
-            "drug responses need perturbation data this project doesn't have. A direct test of "
+            "drug effects in disease models need perturbation data this project doesn't have. "
+            "(Responses of healthy DGRP lines to 7 compounds are covered on the Drug responses "
+            "page.) A direct test of "
             "disease-phenotype transfer (Yang et al. 2023, DGRP×AD) was run and came back an "
             "honest, well-powered <b>null</b> — see About / methods."),
             unsafe_allow_html=True)
@@ -231,6 +267,84 @@ elif page == "Predict":
         st.plotly_chart(fig, use_container_width=True)
     st.caption("Modality is chosen per trait by nested CV (geno = genotype GBLUP, "
                "exp = RNA-seq expression). '—' = not better than the trait mean.")
+
+# ----------------------------------------------------------- Drug responses ---
+elif page == "Drug responses":
+    hero("Drug and toxin responses",
+         "Predicted responses of DGRP lines to 7 compounds (12 models, drug-v1.0), built from "
+         "published DGRP data. Only traits predictable at FDR &lt; 0.05 in a screen of 86 are "
+         "included. These describe healthy lines, not disease models.")
+    dp = get_drug_predictor()
+    if dp is None:
+        st.warning("drug-v1.0 model not found. Build it with scripts/45 → 50.")
+        st.stop()
+
+    section_hdr("1 · Drug-response profile of one line")
+    dlines = sorted({l for m in dp.models.values() for l in m["lines"]},
+                    key=lambda s: int(s.split("_")[1]))
+    line = st.selectbox("DGRP line", dlines,
+                        index=dlines.index("line_357") if "line_357" in dlines else 0,
+                        key="drug_line")
+    rows = []
+    for t in dp.available_traits():
+        r = dp.predict(line, t)
+        m = dp.models[t]
+        if "error" in r:
+            rows.append({"trait": DRUG_LABELS.get(t, t), "note": "line not in this dataset"})
+            continue
+        rows.append({"trait": DRUG_LABELS.get(t, t), "predicted": r["predicted"],
+                     "PI90 low": r["pi90_lower"], "PI90 high": r["pi90_upper"],
+                     "observed": r.get("observed"), "higher means": r["higher_is"],
+                     "data": r["modality"], "cv_r": r["model_cv_r"],
+                     "note": "rank only (wide interval)" if r.get("interval_note") else ""})
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+    st.caption("Predicted = leave-one-out prediction for this line; observed = the published "
+               "value. data: geno = genotype, exp_F = female RNA-seq. cv_r = cross-validated "
+               "accuracy of the model. Units follow each source study.")
+
+    section_hdr("2 · Rank lines for one drug trait")
+    trait = st.selectbox("Trait", dp.available_traits(),
+                         format_func=lambda t: DRUG_LABELS.get(t, t), key="drug_trait")
+    m = dp.models[trait]
+    rank = drug_ranking(trait)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Lines", m["n_lines"])
+    c2.metric("CV r", f"{m['cv_r']:.2f}")
+    c3.metric("90% coverage", f"{m['interval_coverage_90']:.2f}")
+    c4.metric("FDR q", f"{m['fdr_q']:.3f}")
+    if m.get("interval_note"):
+        st.warning("For this trait the 90% interval usually spans most of the possible range. "
+                   "Use the ranking to pick candidate lines, not the values themselves.")
+    fig = go.Figure()
+    fig.add_scatter(x=rank.index + 1, y=rank["predicted"], mode="markers",
+                    marker=dict(color="#F0A500", size=6), name="predicted",
+                    error_y=dict(type="data", color="rgba(13,33,55,.25)",
+                                 array=rank["PI90 high"] - rank["predicted"],
+                                 arrayminus=rank["predicted"] - rank["PI90 low"]),
+                    text=rank["line"], hovertemplate="%{text}<br>predicted %{y}<extra></extra>")
+    fig.add_scatter(x=rank.index + 1, y=rank["observed"], mode="markers",
+                    marker=dict(color="#0D2137", size=4, symbol="diamond"), name="observed",
+                    text=rank["line"], hovertemplate="%{text}<br>observed %{y}<extra></extra>")
+    fig.update_layout(height=420, xaxis_title="rank (highest predicted first)",
+                      yaxis_title=f"{DRUG_LABELS.get(trait, trait)} — higher = {m['higher_is']}",
+                      plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF")
+    st.plotly_chart(fig, use_container_width=True)
+    st.dataframe(rank, use_container_width=True, hide_index=True, height=300)
+    st.download_button("Download ranking (CSV)", rank.to_csv(index=False).encode(),
+                       file_name=f"drug_ranking_{trait}.csv", mime="text/csv")
+    st.caption(f"Compound: {m['compound']} · source: {m['source']}")
+
+    section_hdr("3 · All 86 screened drug/toxin traits")
+    scr = load_csv("chemical_predictability.csv")
+    if scr is not None:
+        show = scr[["trait_id", "compound", "kind", "n_geno", "r_geno", "q_geno",
+                    "r_adaptive", "q_adaptive"]].copy()
+        show["in model"] = show["trait_id"].isin(dp.available_traits()).map({True: "✓", False: ""})
+        st.dataframe(show.round(3), use_container_width=True, hide_index=True, height=360)
+        st.caption("Screen of Findings 21: genotype GBLUP and nested genotype-vs-expression CV, "
+                   "200 permutations, Benjamini-Hochberg FDR across 86 traits. kind: treated, "
+                   "control, or effect (treated − control per line). Only treated/effect traits "
+                   "with q < 0.05 are in the model.")
 
 # -------------------------------------------------- Benchmark & predictability
 elif page == "Benchmark & predictability":
@@ -437,7 +551,7 @@ do **not** improve accuracy at this scale; the gain comes from the RNA-seq modal
 GSE117850 RNA-seq expression; FlyBase/dm3 annotation. See `docs/DATA_SOURCES.md`.
 
 **Validation:** nested CV (unbiased), permutation significance, conformal coverage verified,
-engine checked on known-truth simulations (41 automated tests). Reproduces Ober 2012 & Morgante 2020.
+engine checked on known-truth simulations (68 automated tests). Reproduces Ober 2012 & Morgante 2020.
 
 **Also in this tool:** a separate multi-disease molecular-convergence resource (BCM-DMAS panel;
 see "Disease convergence (v2)") — real matched AD/PD/HD fly omics, not merged with the DGRP predictor.

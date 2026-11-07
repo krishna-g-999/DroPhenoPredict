@@ -48,7 +48,7 @@ the predictable DGRP traits — useful for prioritizing which lines to phenotype
 point predictor; accuracy is structurally limited by the unrelated ~200-line panel, and neither
 omics nor marker-selection nor inversion/Wolbachia covariates raised it (all tested, all documented).
 
-Reproduce: `scripts/03_build_grm.py` → `04`…`10` → `pytest tests/` (41 tests). Predict:
+Reproduce: `scripts/03_build_grm.py` → `04`…`10` → `pytest tests/` (68 tests). Predict:
 `DroPhenoPredictor("v1.0").predict_profile("DGRP_021")`.
 
 ## v2 — Disease-convergence resource (separate from the DGRP predictor above)
@@ -91,6 +91,6 @@ Read in this order:
 3. `docs/MODEL_CARD.md` (v1 predictor) and `docs/TOOL_COMPARISON.md` (both resources vs. prior work) — what is claimed, what is measured, what is explicitly not claimed.
 4. `docs/EDITORIAL_RISK_ANALYSIS.md` — anticipated reviewer objections, addressed by design decision before the Yang 2023 integration was built.
 5. `docs/FINDINGS_*.md` — the full, numbered sequence of analyses, including honest negative/null results (metabolome, DGRP→disease transfer, Yang 2023 AD-degeneration, cross-species ortholog overlap).
-6. `pytest tests/` (41 tests) reproduces the correctness/leakage guards; `scripts/03`→`44` reproduce every result from raw/public data.
+6. `pytest tests/` (68 tests) reproduces the correctness/leakage guards; `scripts/03`→`50` reproduce every result from raw/public data.
 
 **Companion tool by the same author:** [DroPhenix](https://github.com/krishna-g-999/DroPhenix) — a separate, multi-assay Drosophila phenotyping and cross-strain compound-ranking platform (GPL-3.0). No shared code, data, or model artifacts. The app's **"Validate with DroPhenix"** page is a one-way, license-free bridge: it exports a DroPhenix-schema CSV template (verified against DroPhenix's actual source, not guessed) pre-filled with a predicted DGRP line, so a real DroPhenix-analyzed assay can be compared against the prediction. See `docs/DROPHENIX_BRIDGE.md` for what was verified and why a full code merge was not done.

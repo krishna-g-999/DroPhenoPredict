@@ -34,6 +34,11 @@ models/trained/*.pkl
 !models/trained/drophenopredict_v1.0_targets.npz
 !models/trained/drophenopredict_v1.1.json
 !models/trained/drophenopredict_v1.1_kernels.npz
+!models/trained/drophenopredict_drug-v1.0.json
+!models/trained/drophenopredict_drug-v1.0_kernels.npz
+!data/processed/chemical_traits_long.csv
+!data/processed/chemical_traits_catalog.csv
+!data/processed/chemical_predictability.csv
 
 # Python
 __pycache__/

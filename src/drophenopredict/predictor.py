@@ -1,4 +1,7 @@
-"""DroPhenoPredict inference API (supports v1.0 genomic and v1.1 multi-modal).
+"""DroPhenoPredict inference API (v1.0 genomic, v1.1 multi-modal, drug-v1.0 drug/toxin extension).
+
+DroPhenoPredictor("drug-v1.0") serves the 12 drug/toxin response traits that were
+predictable at FDR < 0.05 in Findings 21; it uses the same file format as v1.1.
 
 Returns, for a DGRP line, the predicted trait profile with calibrated 90%
 prediction intervals, the data modality used, and an honest predictability flag.
@@ -79,18 +82,25 @@ class DroPhenoPredictor:
             observed = round(float(y[li]), 3) if obs[li] else None
             modality = "geno"
 
-        # honest accuracy: nested adaptive r (v1.1) or LOO r (v1.0)
-        model_r = meta.get("adaptive_nested_r", meta.get("loo_r", meta.get("loo_r_inpanel")))
+        # honest accuracy: nested adaptive r (v1.1), CV r (drug-v1.0) or LOO r (v1.0)
+        model_r = meta.get("adaptive_nested_r", meta.get("cv_r",
+                           meta.get("loo_r", meta.get("loo_r_inpanel"))))
+        lo, hi = point - hw, point + hw
+        if meta.get("bounds"):                   # proportions/percentages: clip to valid range
+            lo, hi = max(lo, meta["bounds"][0]), min(hi, meta["bounds"][1])
         out = {
             "trait": trait_sex, "line": line, "unit": meta["unit"], "modality": modality,
             "predicted": round(point, 3),
-            "pi90_lower": round(point - hw, 3), "pi90_upper": round(point + hw, 3),
+            "pi90_lower": round(lo, 3), "pi90_upper": round(hi, 3),
             "predictable": meta["predictable"], "model_cv_r": model_r,
             "confidence": "calibrated genomic/transcriptomic signal" if meta["predictable"]
                           else "not better than trait mean (report as prior only)",
         }
         if observed is not None:
             out["observed"] = observed
+        for key in ("compound", "kind", "higher_is", "interval_note"):   # drug-v1.0 fields
+            if meta.get(key) is not None:
+                out[key] = meta[key]
         return out
 
     def predict_profile(self, line_id: str) -> dict:

@@ -72,6 +72,49 @@ Status legend: `VERIFIED` = we have fetched and inspected it · `CITED` = exists
 - **Source:** ChEMBL API (https://www.ebi.ac.uk/chembl/) / DrugBank.
 - **Status:** `CITED`. Replaces the invented `DRUG_PROFILES` dict. Every affinity stored with its ChEMBL/source ID.
 
+### 7. DGRP drug / toxin response phenotypes (collected 2026-11-07, scripts 45–48)
+- **Provides:** per-line responses of DGRP2 lines to 21 compounds: 69 trait–sex combinations,
+  99–205 genotyped lines each, 12,107 line values. Harmonised table:
+  `data/processed/chemical_traits_long.csv` + `chemical_traits_catalog.csv` (source, role, n per trait).
+- **Search:** DGRPool live catalog (keyword search of 142 studies) + Europe PMC (609 DGRP papers →
+  69 chemical-exposure genetics papers) + DOI lookups in Dryad, Zenodo and figshare.
+- **Status:** `VERIFIED` (2026-11-07). Every file downloaded by script with URL + SHA-256 manifest
+  (`data/raw/chemical_supp/download_manifest.csv`, `data/raw/chemical_repo/download_manifest.csv`).
+  Cross-check: deltamethrin survival computed from the raw Duneau 2018 table agrees with the DGRPool
+  copy (r = 0.93). The DGRPool climbing trait used by v1.1 (phenotype 1543) is the **untreated control
+  arm** of Jordan 2012's menadione study; its treated arm is now included.
+
+| Compound | Source (data location) | Lines in panel |
+|---|---|---|
+| ethanol (adult sensitivity/tolerance; developmental) | Morozova 2015, 2018 (DGRPool) | 198–205 |
+| lead (development, viability, activity; + controls) | Zhou 2016 (DGRPool) | 166–200 |
+| menadione sodium bisulfite (climbing, startle; + controls) | Jordan 2012 (DGRPool) | 185 |
+| menadione, paraquat (resistance) | Weber 2012 (DGRPool) | 167 |
+| paraquat low dose (climbing; + control) | Lovejoy 2021 (DGRPool) | 99 |
+| methylmercury, caffeine (developmental survival) | Montgomery 2014 (DGRPool) | 171 |
+| caffeine, boric acid (lifespan, females) | Najarro 2015, 2017 (DGRPool) | 158–163 |
+| methylphenidate (food intake, activity; + sucrose control, males) | Rohde 2019 (DGRPool; raw on figshare) | 172 |
+| azinphos-methyl (LD50) | Battlay 2016 (DGRPool) | 175 |
+| ryanoid insecticide (LC50) | Green 2018 (DGRPool) | 152 |
+| malathion (3/6/12/24 h mortality), permethrin (3 h knockdown, 24 h mortality) | Battlay 2018 (figshare 10.25387/g3.6954443) | 169–170 |
+| parathion (48 h survival, from per-fly records), deltamethrin (48 h survival) | Duneau 2018 (figshare 10.25387/g3.7047734) | 194–195 |
+| imidacloprid (larval wiggle index, 25 and 100 ppm) | Denecke 2017 (Sci Rep supplement) | 171 |
+| α-amanitin (eclosion at 0.2 and 2 µg/g) | Mitchell 2017 (PLoS One supplement) | 145 |
+| rapamycin (pupation time; + vehicle control) | Harrison 2024 (Aging Cell supplement) | 140 |
+| octanoic acid / noni toxin (survival) | Marconcini 2026 (G3 supplement) | 184 |
+
+- **Found but not usable as per-line DGRP2 data (recorded, not used):** cocaine/methamphetamine
+  (Highfill 2019, 46 lines), BTEX (Adebambo 2020, 79 lines), DDT (Schmidt 2017, 38 lines) — below the
+  80-line threshold; 4-methylimidazole (Collins 2024) — DGRP3 panel, not covered by our genotypes;
+  cadmium/lead extreme-QTL (Zhou 2017) — pooled, no per-line values; copper (Green 2022) — European
+  wild strains; nicotine (Highfill 2017), venom (Ward 2026) — DSPR panel; proteasome inhibitor
+  (Tu'ifua 2025), rapamycin (Peddibhotla 2026) — 1–3 genotypes; methotrexate (Kislukhin 2013) —
+  Dryad file requires login (HTTP 401); anaesthetics (Olufs 2018, Scharenbrock 2020,
+  Johnson-Schlitz 2025), oxidative transcriptome (Ramnarine 2022) — figures/PDF only; peroxide
+  survival (Harrison 2020) — per-fly records in DGRPool, not yet summarised; rapamycin fecundity
+  (Rohde 2021) — 6 lines. Amphetamine transcriptome (Karam 2022, lab strain) kept for the drug
+  signature work, not as a DGRP trait.
+
 ---
 
 ## EXCLUDED (will not be used as model features)
