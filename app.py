@@ -388,14 +388,32 @@ elif page == "Validate with DroPhenix":
         template = dpx.template_for_trait_family(trait_family, line, sex)
         section_hdr(f"DroPhenix {'climbing' if trait_family == 'climbing' else 'DAMS activity/sleep'} "
                     "template (blank, ready to fill)")
-        st.dataframe(template, use_container_width=True, hide_index=True)
+        preview = template.head(60)
+        st.dataframe(preview, use_container_width=True, hide_index=True)
+        if len(template) > len(preview):
+            st.caption(f"Showing the first {len(preview)} of {len(template):,} rows. "
+                       "The full file is in the download.")
         st.download_button(
             f"⬇ Download {ext_id}_{trait_key}_drophenix_template.csv",
             data=template.to_csv(index=False).encode("utf-8"),
             file_name=f"{ext_id}_{trait_key}_drophenix_template.csv", mime="text/csv")
-        st.caption("Replicate/timepoint/fly counts are a common-default skeleton — edit rows to "
-                   "match your actual protocol before running the real assay. Only the measured "
-                   "columns (`Count` / `Activity`) are left blank; nothing in this file is simulated.")
+
+        if trait_family == "climbing":
+            st.caption(
+                "`VialID` is the column DroPhenix clusters on — one vial per replicate. It is "
+                "not optional in practice: without it every fly is treated as an independent "
+                "observation, and at a vial-level ICC near 0.29 that overstates the effective "
+                "sample size about five-fold. Replicate/timepoint/fly counts are a "
+                "common-default skeleton to edit to match your protocol. Only `Count` is left "
+                "blank; nothing in this file is simulated.")
+        else:
+            st.caption(
+                "Rows are at **1-minute** resolution because sleep is defined as ≥ 5 minutes of "
+                "inactivity — coarser bins cannot express that rule and under-count sleep "
+                "badly, so they would not be comparable with the DGRP values predicted above. "
+                "`Monitor` and `Channel` record which tube each fly occupied, so the layout can "
+                "be design-checked; flies are dealt across two monitors rather than loaded into "
+                "one. Only `Activity` is left blank; nothing in this file is simulated.")
 
 # ------------------------------------------------------------- About ----------
 else:
